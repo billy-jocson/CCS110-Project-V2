@@ -4,7 +4,8 @@ $stmt = mysqli_query($conn, 'SELECT * FROM employees');
 $totalEmployees = mysqli_num_rows($stmt);
 ?>
 
-<div class="bg-gradient-to-b from-purple-500 to-purple-800 text-white p-5 w-50 overflow-hidden rounded-lg relative">
+<div
+    class="bg-gradient-to-b from-purple-500 to-purple-800 text-white p-5 w-50 overflow-hidden rounded-lg relative flex-grow-1">
     <div class="absolute top-0 -right-8 opacity-35">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-40">

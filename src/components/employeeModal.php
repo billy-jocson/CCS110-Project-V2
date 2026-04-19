@@ -1,5 +1,5 @@
 <!-- MODAL -->
-<div class="flex invisible bg-black/0 w-full h-full absolute z-50 top-0 left-0 transition-all duration-400 ease-out"
+<div class="flex invisible bg-black/0 w-full h-full absolute z-55 top-0 left-0 transition-all duration-400 ease-out"
     id="blurBg">
     <div class="bg-zinc-100 w-[30%] h-fit m-auto rounded-2xl p-4 overflow-hidden relative flex flex-col opacity-0 scale-95 transition-all duration-400 ease-out"
         id="employeeDetails">
@@ -64,42 +64,11 @@
     </div>
 </div>
 <script>
-    async function viewProfile(e, btn) {
-        const blurBg = document.querySelector("#blurBg");
-        const employeeDetails = document.querySelector("#employeeDetails");
-
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('id', btn.dataset.id);
-
-        const employee = await fetch('../src/controllers/getEmployeeDetails.php', { method: "POST", body: formData })
-            .then(response => response.json())
-            .then(data => openModal(data));
-    }
-
     function closeModal() {
         blurBg.classList.add('bg-black/0', 'invisible');
         blurBg.classList.remove('bg-black/50', 'backdrop-blur-sm');
 
         employeeDetails.classList.add('opacity-0', 'scale-95');
         employeeDetails.classList.remove('opacity-100', 'scale-100');
-    }
-
-    function openModal(employee) {
-        const username = document.querySelector("#username");
-        const name = document.querySelector("#name");
-        const position = document.querySelector("#position");
-        const profilePicture = document.querySelector('#profilePicture');
-
-        profilePicture.setAttribute('src', `${employee.profile_link}`)
-        username.innerHTML = `@${employee.user_name}`;
-        name.innerHTML = `${employee.first_name} ${employee.last_name}`;
-        position.innerHTML = `${employee.position}`;
-
-        blurBg.classList.add('bg-black/50', 'backdrop-blur-sm');
-        blurBg.classList.remove('bg-black/0', 'invisible');
-
-        employeeDetails.classList.add('opacity-100', 'scale-100');
-        employeeDetails.classList.remove('opacity-0', 'scale-95');
     }
 </script>

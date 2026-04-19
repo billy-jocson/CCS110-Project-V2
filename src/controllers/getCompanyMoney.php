@@ -2,12 +2,16 @@
 include('../../backend/database.php');
 header('Content-Type: application/json');
 
-$sql = mysqli_query($conn, 'SELECT amount FROM company_transactions ORDER BY id DESC LIMIT 1');
-$money = mysqli_fetch_assoc($sql);
+$stmt = $conn->prepare('SELECT amount FROM company_transactions ORDER BY transaction_id DESC LIMIT 1');
+$stmt->execute();
+$result = $stmt->get_result();
+$money = $result->fetch_assoc();
 
 if (!$money) {
-    echo json_encode(['amount' => 0]);
+    $money = 0;
+    echo json_encode($money);
 } else {
     echo json_encode($money);
 }
+$stmt->close();
 ?>

@@ -79,11 +79,16 @@ $position = $_SESSION['position'];
                         </div>
                     </div>
                 </div>
-                <?php include('../src/components/employeesTable.php') ?>
+                <?php
+                include('../src/components/employeesTable.php');
+                include('../src/components/depositModal.php');
+                ?>
             </div>
         </div>
     </div>
-    <?php include('../src/components/depositModal.php') ?>
+    <?php
+    include('../src/components/employeeModal.php');
+    ?>
 </body>
 
 </html>
