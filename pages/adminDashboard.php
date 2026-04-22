@@ -8,6 +8,8 @@ if (!isset($_SESSION['fullName'])) {
 $fullName = $_SESSION["fullName"];
 $isAdmin = $_SESSION["isAdmin"];
 $position = $_SESSION['position'];
+$is_paid = $_SESSION['is_paid'];
+$employee_id = $_SESSION['employee_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

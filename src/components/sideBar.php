@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li>
-                <a onclick=""
+                <a onclick="" href="../src/components/employeesPayrollTable.php"
                     class="text-zinc-600 hover:bg-zinc-100 px-3 py-2 rounded-lg flex gap-2 items-center transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-zinc-600">
                         <path
@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li>
-                <a onclick="changePage()"
+                <a onclick="changePage()" href = "../src/components/payrollHistory.php"
                     class="text-zinc-600 hover:bg-zinc-100 px-3 py-2 rounded-lg flex gap-2 items-center transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 stroke-zinc-600">
@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li>
-                <a href="../src/components/resignationRequest.php"
+                <a href="../src/components/fileResignation.php"
                     class="hover:text-zinc-800  text-zinc-600 hover:bg-zinc-100 px-3 py-2 rounded-lg flex gap-2 items-center transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 stroke-zinc-600">

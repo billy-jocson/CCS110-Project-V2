@@ -9,6 +9,8 @@ if (!isset($_SESSION['fullName'])) {
 $fullName = $_SESSION["fullName"];
 $isAdmin = $_SESSION["isAdmin"];
 $position = $_SESSION['position'];
+$is_paid = $_SESSION['is_paid'];
+$employee_id = $_SESSION['employee_id'];
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +25,15 @@ $position = $_SESSION['position'];
     <a href="../src/controllers/logoutSession.php">
         Log Out
     </a>
+    <!-- section na mag didisplay kung ung payslip ba ay paid or not paid -->
+    <div>
+        <h2>Position: <?= $position ?></h2>
+        <h2>Payslip Status: <?= $is_paid ? 'Paid' : 'Not Paid' ?></h2>
+    </div>
 </body>
 
 <script>
     console.log("<?=$fullName?>");
+    console.log("<?=$is_paid?>");
 </script>
 </html>
