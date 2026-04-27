@@ -47,13 +47,9 @@ include('../src/controllers/createAccount.php');
                             id="employeeDetails">
                             <div class="flex flex-col">
                                 <label class="font-semibold text-zinc-500">Department</label>
-                                <select name="department"
+                                <select name="department" id="departments" onchange="changePositionsList(this)"
                                     class="px-3 py-2 border border-zinc-500 rounded-lg focus:outline-blue-500">
-                                    <option value="1">Human Resources</option>
-                                    <option value="2">IT Department</option>
-                                    <option value="3">Finance</option>
-                                    <option value="4">Marketing</option>
-                                    <option value="5">Operations</option>
+
                                 </select>
                             </div>
                             <div class="flex gap-3">
@@ -77,8 +73,9 @@ include('../src/controllers/createAccount.php');
                             </div>
                             <div class="flex flex-col">
                                 <label class="font-semibold text-zinc-500">Position</label>
-                                <input type="text" name="position" placeholder="Enter job position"
-                                    class="px-3 py-2 border border-zinc-500 rounded-lg focus:outline-blue-500" required>
+                                <select name="position" id="position"
+                                    class="px-3 py-2 border border-zinc-500 rounded-lg focus:outline-blue-500">
+                                </select>
                             </div>
                             <input onclick="validateNext(event)" type="submit" value="Next"
                                 class="mt-5 px-2 py-2 bg-zinc-700 text-white hover:bg-zinc-800 transition-colors rounded-lg cursor-pointer font-semibold">
@@ -91,7 +88,7 @@ include('../src/controllers/createAccount.php');
                             id="accountDetails">
                             <div class="">
                                 <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">
-                                    Upload file
+                                    Formal Picture
                                 </label>
 
                                 <div
@@ -146,6 +143,46 @@ include('../src/controllers/createAccount.php');
             const fileName = e.target.files[0] ? e.target.files[0].name : "No file chosen";
             e.target.nextElementSibling.nextElementSibling.innerText = fileName;
         });
+
+        // Load departments and position after website loads
+        document.addEventListener('DOMContentLoaded', async function () {
+            await fetch('../src/controllers/getDepartments.php')
+                .then(res => res.json())
+                .then(data => renderDepartments(data));
+        });
+
+        // Get and display all position based on department id
+        async function changePositionsList(data) {
+            const selectedDept = data.value;
+            await fetch('../src/controllers/getPositions.php',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ dept_id: selectedDept })
+                })
+                .then(res => res.json())
+                .then(data => renderList(data));
+        }
+
+        // Get and display all departments
+        async function renderDepartments(data) {
+            const departments = document.querySelector('#departments');
+            departments.innerHTML = "";
+
+            data.forEach(item => {
+                departments.innerHTML += `<option value="${item.dept_id}">${item.dept_name}</option>`;
+            });
+
+            await changePositionsList(departments);
+        }
+
+        function renderList(data) {
+            const position = document.querySelector('#position');
+            position.innerHTML = "";
+
+            data.forEach(item => {
+                position.innerHTML += `<option value="${item.position_id}">${item.position_name}</option>`;
+            });
+        }
 
         function validateNext(event) {
             event.preventDefault();

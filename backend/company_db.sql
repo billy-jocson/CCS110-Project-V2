@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2026 at 07:01 AM
+-- Generation Time: Apr 27, 2026 at 12:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `company_db`
+-- Database: `company_db2`
 --
 
 -- --------------------------------------------------------
@@ -76,9 +76,9 @@ CREATE TABLE `employees` (
   `user_id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `contact_no` int(20) NOT NULL,
+  `contact_no` varchar(20) NOT NULL,
   `position` varchar(255) NOT NULL,
-  `is_resigned` tinyint(1) NOT NULL COMMENT 'inadd q toh para d na natin im-move ung user sa new table pag resigned na sya\r\n'
+  `is_resigned` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -86,9 +86,93 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`employee_id`, `dept_id`, `user_id`, `first_name`, `last_name`, `contact_no`, `position`, `is_resigned`) VALUES
-(1, 1, 1, 'Billy John', 'Jocson', 2147483647, '123', 0),
-(2, 1, 3, 'Spongebob', 'Squarepants', 999, 'Krusty Krab Worker', 0),
-(3, 2, 4, 'Noel', 'Mercadal', 999, 'Backend Developer', 0);
+(1, 1, 1, 'Billy John', 'Jocson', '09763334516', '1', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `positions`
+--
+
+CREATE TABLE `positions` (
+  `position_id` int(11) NOT NULL,
+  `dept_id` int(11) NOT NULL,
+  `position_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `positions`
+--
+
+INSERT INTO `positions` (`position_id`, `dept_id`, `position_name`) VALUES
+(1, 1, 'HR Manager'),
+(2, 1, 'Recruitment Specialist'),
+(3, 1, 'Compensation and Benefits Analyst'),
+(4, 1, 'HR Generalist'),
+(5, 1, 'Training and Development Coordinator'),
+(6, 2, 'IT Manager'),
+(7, 2, 'Software Engineer'),
+(8, 2, 'Systems Administrator'),
+(9, 2, 'Cybersecurity Analyst'),
+(10, 2, 'Help Desk Technician'),
+(11, 3, 'Finance Manager'),
+(12, 3, 'Financial Analyst'),
+(13, 3, 'Accountant'),
+(14, 3, 'Payroll Specialist'),
+(15, 3, 'Budget Analyst'),
+(16, 4, 'Marketing Manager'),
+(17, 4, 'Digital Marketing Specialist'),
+(18, 4, 'Content Strategist'),
+(19, 4, 'Brand Manager'),
+(20, 4, 'Marketing Analyst'),
+(21, 5, 'Operations Manager'),
+(22, 5, 'Supply Chain Coordinator'),
+(23, 5, 'Logistics Analyst'),
+(24, 5, 'Quality Assurance Specialist'),
+(25, 5, 'Operations Analyst');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `position_salary`
+--
+
+CREATE TABLE `position_salary` (
+  `position_salary_id` int(11) NOT NULL,
+  `position_id` int(11) NOT NULL,
+  `base_pay` decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `position_salary`
+--
+
+INSERT INTO `position_salary` (`position_salary_id`, `position_id`, `base_pay`) VALUES
+(1, 1, 85000.00),
+(2, 2, 55000.00),
+(3, 3, 62000.00),
+(4, 4, 52000.00),
+(5, 5, 58000.00),
+(6, 6, 110000.00),
+(7, 7, 95000.00),
+(8, 8, 75000.00),
+(9, 9, 90000.00),
+(10, 10, 45000.00),
+(11, 11, 90000.00),
+(12, 12, 68000.00),
+(13, 13, 60000.00),
+(14, 14, 55000.00),
+(15, 15, 65000.00),
+(16, 16, 82000.00),
+(17, 17, 54000.00),
+(18, 18, 58000.00),
+(19, 19, 72000.00),
+(20, 20, 50000.00),
+(21, 21, 88000.00),
+(22, 22, 52000.00),
+(23, 23, 59000.00),
+(24, 24, 61000.00),
+(25, 25, 57000.00);
 
 -- --------------------------------------------------------
 
@@ -101,8 +185,8 @@ CREATE TABLE `resignation_request` (
   `employee_id` int(11) NOT NULL,
   `resignation_letter` blob NOT NULL,
   `request_date` date NOT NULL DEFAULT current_timestamp(),
-  `desired_date` date NOT NULL COMMENT 'kung kelan nya gusto',
-  `status` tinyint(4) NOT NULL COMMENT '0=pending 1=approved 2= rejected'
+  `desired_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=pending 1=approved 2=rejected'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -112,6 +196,7 @@ CREATE TABLE `resignation_request` (
 --
 
 CREATE TABLE `salary_history` (
+  `transaction_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `salary_id` int(11) NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp(),
@@ -126,6 +211,7 @@ CREATE TABLE `salary_history` (
 
 CREATE TABLE `salary_structure` (
   `salary_id` int(11) NOT NULL,
+  `position_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `base_pay` int(11) NOT NULL,
   `bonus` int(11) NOT NULL,
@@ -142,9 +228,9 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `profile_link` varchar(255) NOT NULL COMMENT 'dko knows ung profile link kaya naka varchar sya',
-  `is_admin` tinyint(1) NOT NULL,
-  `is_paid` tinyint(1) NOT NULL
+  `profile_link` varchar(255) DEFAULT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `is_paid` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -152,9 +238,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `password`, `profile_link`, `is_admin`, `is_paid`) VALUES
-(1, 'admin', '$2y$10$skaxOtESM99Dkss5XabmTupFKOX.ugz9df929o0XwpDfwtnhgGmKK', '../assets/images/userProfiles/Art Appreciation Assignment.png', 1, 0),
-(3, 'spongebob123', '$2y$10$xWYH7jlPkUhPTsBSEsUzf.1AYevG577NaRR/tSj9l/C0LWKwOI2Ry', '../assets/images/userProfiles/Character.png', 0, 0),
-(4, 'noelensaymada', '$2y$10$RAi00hEkqERwdYozf67Sq.K3Gg9ZFg.aUStGce3Q4TxAHNLz8lBpy', '../assets/images/userProfiles/John Doe.jpg', 0, 0);
+(1, 'spongebob123', '$2y$10$5GNESbg3IypDydZuKXNz4OTOaH9n630exPS.WkBZ1M/jcMi58yydi', '../assets/images/userProfiles/Finals Exam.PNG', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -177,29 +261,44 @@ ALTER TABLE `departments`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`employee_id`),
-  ADD KEY `dept_id` (`dept_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `employees_ibfk_1` (`user_id`),
+  ADD KEY `employees_ibfk_2` (`dept_id`);
+
+--
+-- Indexes for table `positions`
+--
+ALTER TABLE `positions`
+  ADD PRIMARY KEY (`position_id`),
+  ADD KEY `dept_id` (`dept_id`);
+
+--
+-- Indexes for table `position_salary`
+--
+ALTER TABLE `position_salary`
+  ADD PRIMARY KEY (`position_salary_id`);
 
 --
 -- Indexes for table `resignation_request`
 --
 ALTER TABLE `resignation_request`
   ADD PRIMARY KEY (`resign_id`),
-  ADD KEY `employee_id` (`employee_id`);
+  ADD KEY `resignation_request_ibfk_1` (`employee_id`);
 
 --
 -- Indexes for table `salary_history`
 --
 ALTER TABLE `salary_history`
-  ADD KEY `employee_id` (`employee_id`),
-  ADD KEY `salary_id` (`salary_id`);
+  ADD PRIMARY KEY (`transaction_id`),
+  ADD KEY `salary_history_ibfk_1` (`employee_id`),
+  ADD KEY `salary_history_ibfk_2` (`salary_id`);
 
 --
 -- Indexes for table `salary_structure`
 --
 ALTER TABLE `salary_structure`
   ADD PRIMARY KEY (`salary_id`),
-  ADD KEY `employee_id` (`employee_id`);
+  ADD KEY `salary_structure_ibfk_1` (`employee_id`),
+  ADD KEY `fk_salary_structure_position` (`position_id`);
 
 --
 -- Indexes for table `users`
@@ -216,7 +315,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `company_transactions`
 --
 ALTER TABLE `company_transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -228,13 +327,31 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `positions`
+--
+ALTER TABLE `positions`
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `position_salary`
+--
+ALTER TABLE `position_salary`
+  MODIFY `position_salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `resignation_request`
 --
 ALTER TABLE `resignation_request`
   MODIFY `resign_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `salary_history`
+--
+ALTER TABLE `salary_history`
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salary_structure`
@@ -246,7 +363,7 @@ ALTER TABLE `salary_structure`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -258,6 +375,12 @@ ALTER TABLE `users`
 ALTER TABLE `employees`
   ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`dept_id`);
+
+--
+-- Constraints for table `positions`
+--
+ALTER TABLE `positions`
+  ADD CONSTRAINT `positions_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`dept_id`);
 
 --
 -- Constraints for table `resignation_request`
@@ -276,6 +399,7 @@ ALTER TABLE `salary_history`
 -- Constraints for table `salary_structure`
 --
 ALTER TABLE `salary_structure`
+  ADD CONSTRAINT `fk_salary_structure_position` FOREIGN KEY (`position_id`) REFERENCES `positions` (`position_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `salary_structure_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`);
 COMMIT;
 

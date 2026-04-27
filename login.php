@@ -1,10 +1,6 @@
 <?php
 session_start();
 $username = $password = "";
-if (isset($_GET['invalid'])) {
-    $username = $_SESSION['username'];
-    $password = $_SESSION['password'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +39,7 @@ if (isset($_GET['invalid'])) {
 
             <hr class="text-zinc-300">
 
-            <form class="flex flex-col gap-2" method="POST" action="src/controllers/validateLogin.php">
+            <form class="flex flex-col gap-2" id="formLogin">
                 <label class="font-semibold text-zinc-500">Username</label>
                 <input type="text" name="username"
                     class="px-3 py-2 border border-zinc-500 rounded-lg focus:outline-blue-500"
@@ -54,16 +50,37 @@ if (isset($_GET['invalid'])) {
                     class="px-3 py-2 border rounded-lg border-zinc-500 focus:outline-blue-500"
                     placeholder="Enter password" value="<?php echo $password ?>" required>
 
-                <?php if (isset($_GET['invalid'])): ?>
-                    <p class="text-red-500 text-sm">Invalid username or password</p>
-                <?php endif; ?>
-                <input type="submit" value="Login" onclick="validateLogin(e)"
-                    class="mt-5 px-2 py-2 bg-blue-700 text-white text-center hover:bg-blue-900 transition-colors rounded-lg cursor-pointer font-semibold">
+                <p class="text-red-500 text-sm hidden mb-5" id="errorMsg"></p>
+                <input type="submit" value="Login"
+                    class="px-2 py-2 bg-blue-700 text-white text-center hover:bg-blue-900 transition-colors rounded-lg cursor-pointer font-semibold">
             </form>
             <a href="pages/signUpPage.php" class="text-center underline text-blue-800 w-fit mx-auto">Don't have an
                 account?</a>
         </div>
     </div>
+
+    <script>
+        // Use AJAX to validate user's login credentials
+        document.querySelector('#formLogin').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            await fetch('src/controllers/validateLogin.php', { method: "POST", body: formData })
+                .then(response => response.json())
+                .then(data => validateLogin(data));
+        });
+
+        function validateLogin(data) {
+            const errorMsg = document.querySelector('#errorMsg');
+            if (data.status === "success") {
+                errorMsg.classList.add('hidden');
+                window.location.href = 'pages/dashboard.php';
+            } else {
+                errorMsg.classList.remove('hidden');
+                errorMsg.innerText = data.msg;
+            }
+        }
+    </script>
 </body>
 
 </html>

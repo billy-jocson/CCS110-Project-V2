@@ -29,6 +29,12 @@ if (isset($_POST['createAccount']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt2->bind_param('iissss', $department, $newUserId, $firstName, $lastName, $contact, $position);
             $stmt2->execute();
 
+            $newEmployeeId = $conn->insert_id;
+
+            $stmt3 = $conn->prepare('INSERT INTO salary_structure (position_id, employee_id, base_pay, bonus, deduction, is_available) VALUES (?, ?, (SELECT base_pay FROM position_salary WHERE position_id = ?), 0, 0, 0)');
+            $stmt3->bind_param('iii', $position, $newEmployeeId, $position);
+            $stmt3->execute();
+
             header('../login.php');
         }
     }
