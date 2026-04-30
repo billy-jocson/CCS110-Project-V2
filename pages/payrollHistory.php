@@ -28,13 +28,15 @@ $position = $_SESSION['position'];
 </head>
 
 <body>
-    <div class="flex relative">
+    <div class="flex relative bg-zinc-100">
         <?php include '../src/components/sideBar.php'; ?>
 
-        <div class="w-full absolute left-0 md:static">
-            <?php
-            include("../src/controllers/getPayrollHistory.php");
-            ?>
+        <div class="w-full md:flex-1 min-h-screen md:static md:overflow-y-auto">
+            <div class="h-full flex flex-col p-10">
+                <?php
+                include("../src/controllers/getPayrollHistory.php");
+                ?>
+            </div>
         </div>
     </div>
 </body>

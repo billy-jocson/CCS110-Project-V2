@@ -32,15 +32,14 @@ if ($isAdmin == 0) {
 }
 
 if ($query->num_rows == 0) {
-    echo "<img src='../assets/images/noHistoryFound.svg' alt='No History Found' class='w-52 mb-5 relative -left-5'>";
-    echo "<h1 class='text-zinc-600 font-medium'>No history of payroll found.</h1>";
+    echo "<img src='../assets/images/noHistoryFound.svg' alt='No History Found' class='w-52 relative -left-5 mx-auto'>";
+    echo "<h1 class='text-zinc-600 font-medium text-center mt-5'>No history of payroll found.</h1>";
 } else {
     echo '
-    <div class="p-6">
-        <h1 class="text-2xl font-bold text-gray-800 mb-1">Payroll History</h1>
-        <h3 class="text-sm text-gray-500 mb-4">' . ($isEmployeeView ? 'Your Transaction History' : 'All Employees Transaction History') . '</h3>
-
-        <div class="overflow-x-auto bg-white shadow-md rounded-xl">
+    <div>
+        <h1 class="font-bold text-3xl text-zinc-900">Payroll History</h1>
+        <p class="text-zinc-500 text-sm mt-1">' . ($isEmployeeView ? 'Your Transaction History' : 'All Employees Transaction History') . '</p>
+        <div class="overflow-x-auto bg-white shadow-md rounded-xl mt-10">
             <table class="min-w-full text-sm text-left text-gray-600">
                 
                 <thead class="bg-gradient-to-r from-sky-500 to-blue-600 text-white">

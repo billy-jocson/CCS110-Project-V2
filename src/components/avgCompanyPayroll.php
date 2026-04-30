@@ -1,5 +1,5 @@
 <div
-    class="bg-gradient-to-b from-sky-500 to-sky-800 p-5 relative rounded-lg isolate flex flex-col justify-end flex-grow-1">
+    class="bg-gradient-to-b from-sky-500 to-sky-800 p-5 h-full relative rounded-lg isolate flex flex-col justify-end flex-grow-1">
     <div class="absolute top-0 -right-10 opacity-35 -z-1">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
             class="size-40">

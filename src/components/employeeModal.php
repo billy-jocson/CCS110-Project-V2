@@ -50,7 +50,7 @@
                     class="text-sm border border-zinc-700 text-zinc-700 rounded-lg cursor-pointer px-3 py-1 hover:bg-zinc-800 hover:text-white transition-colors">
                     Close
                 </button>
-                <button
+                <button id="givePayrollBtn"
                     class="text-sm bg-sky-700 text-white rounded-lg cursor-pointer px-3 py-1 hover:bg-sky-800 transition-colors flex items-center gap-2">Give
                     Payroll
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

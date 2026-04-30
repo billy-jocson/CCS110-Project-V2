@@ -16,6 +16,7 @@ $position = $_SESSION['position'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include('../assets/fonts/fonts.php'); ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <title><?php echo $isAdmin == 1 ? "Admin Dashboard" : "Employee Dashboard"; ?></title>
     <script src="../assets/css/tailwindcss.js"></script>
     <style>
@@ -27,11 +28,9 @@ $position = $_SESSION['position'];
 </head>
 
 <body>
-    <div class="flex items-start">
+    <div class="flex h-screen overflow-hidden">
         <?php include('../src/components/sideBar.php'); ?>
-
-        <!-- Main Dashboard -->
-        <div class="pt-10  px-10 bg-zinc-100 w-full">
+        <div class="pt-10 px-10 bg-zinc-100 w-full flex-1 overflow-y-auto">
             <h1 class="font-bold text-3xl text-zinc-900">
                 <?php
                 date_default_timezone_set('Asia/Manila');
@@ -51,28 +50,26 @@ $position = $_SESSION['position'];
 
             <!-- User Profile Image -->
             <div class="flex flex-col gap-5">
-                <div class="flex gap-5 mt-5">
-                    <div>
-                        <div class="bg-white relative w-56 h-fit rounded-2xl overflow-hidden">
-                            <img src="<?php echo $_SESSION['profileLink'] ?>"
-                                alt="<?php echo "$fullName Profile Picture" ?>"
-                                class="w-full object-cover aspect-square">
-                            <div
-                                class="absolute bottom-3 left-3 right-3 h-fit backdrop-blur-[3px] bg-white/50 px-4 py-3 rounded-xl">
-                                <h1 class="text-zinc-950 font-semibold leading-tight">
-                                    <?php echo $fullName ?>
-                                </h1>
-                                <h1 class="text-zinc-950 text-sm opacity-90">
-                                    <?php echo $position ?>
-                                </h1>
-                            </div>
+                <div class="flex flex-col xl:flex-row gap-5 mt-5">
+                    <div
+                        class="bg-white relative aspect-square w-full xl:w-64 h-72 xl:h-64 rounded-2xl overflow-hidden">
+                        <img src="<?php echo $_SESSION['profileLink'] ?>"
+                            alt="<?php echo "$fullName Profile Picture" ?>"
+                            class="w-full h-full object-cover aspect-square">
+                        <div
+                            class="absolute bottom-3 left-3 right-3 h-fit backdrop-blur-[3px] bg-white/50 px-4 py-3 rounded-xl">
+                            <h1 class="text-zinc-950 font-semibold leading-tight">
+                                <?php echo $fullName ?>
+                            </h1>
+                            <h1 class="text-zinc-950 text-sm opacity-90">
+                                <?php echo $position ?>
+                            </h1>
                         </div>
                     </div>
 
 
-                    <div class="bg-white w-full p-5 rounded-lg">
-                        <h1 class="text-3xl font-bold block mb-3"><?php echo date('F d') ?></h1>
-                        <div class="flex gap-3">
+                    <div class="bg-white w-full p-3 rounded-lg">
+                        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 h-full">
                             <?php include('../src/components/companyMoney.php'); ?>
                             <?php include('../src/components/avgCompanyPayroll.php'); ?>
                             <?php include('../src/components/totalEmployees.php') ?>

@@ -20,7 +20,7 @@ include('../src/controllers/createAccount.php');
 <body class="h-screen overflow-hidden bg-gray-50">
     <div class="flex items-center justify-center h-full p-5 gap-5">
         <div
-            class="w-1/2 h-full bg-[url(../assets/images/buildings.jpg)] bg-cover flex flex-col rounded-xl overflow-hidden">
+            class="hidden md:flex flex-1 h-full bg-[url('../assets/images/buildings.jpg')] bg-cover flex-col rounded-xl overflow-hidden">
             <div class="h-full w-full bg-black/50 flex justify-end flex-col p-15 backdrop-blur-sm">
                 <h1 class="text-slate-50 text-5xl mb-3 font-semibold">PayFlow</h1>
                 <p class="text-slate-50 font-thin text-sm leading-relaxed">
@@ -29,7 +29,7 @@ include('../src/controllers/createAccount.php');
             </div>
         </div>
 
-        <div class="w-1/2 flex flex-col justify-center px-20 gap-5">
+        <div class="w-full md:w-1/2 flex flex-col justify-center px-20 gap-5">
             <div>
                 <img src="../assets/images/PayFlow Logo.png" class="w-20 h-36 object-cover">
                 <h1 class="text-5xl font-bold mb-2">Create Account</h1>

@@ -1,8 +1,6 @@
 <?php
 include('../backend/database.php');
-$sql = mysqli_query($conn, "
-SELECT employees.*, users.*,  FROM employees LEFT JOIN users ON employees.user_id = users.user_id
-");
+$sql = mysqli_query($conn, "SELECT e.*, u.* FROM employees e LEFT JOIN users u ON e.user_id = u.user_id");
 ?>
 
 <div class="flex items-center justify-between gap-2 ">

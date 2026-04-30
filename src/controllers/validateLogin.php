@@ -18,8 +18,12 @@ if ($result && password_verify($_POST['password'], $result['password'])) {
     $_SESSION['profileLink'] = $result['profile_link'];
     $_SESSION['position'] = $result['position'];
     $_SESSION['employeeId'] = $result['employee_id'];
+    $adminStatus = 0;
+    if ($_SESSION['isAdmin'] == 1) {
+        $adminStatus = 1;
+    }
 
-    echo json_encode(["status" => "success", "msg" => "correct credentials"]);
+    echo json_encode(["status" => "success", "msg" => "correct credentials", "isAdmin" => "$adminStatus"]);
 } else {
     echo json_encode(["status" => "error", "msg" => "Incorrect credentials!"]);
 }

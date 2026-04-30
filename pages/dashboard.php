@@ -28,11 +28,11 @@ $position = $_SESSION['position'];
 </head>
 
 <body>
-    <div class="flex items-start relative">
+    <div class="flex items-start">
         <?php include('../src/components/sideBar.php'); ?>
 
         <!-- Main Dashboard -->
-        <div class="pt-10 px-10 bg-zinc-100 w-full h-screen absolute left-0 md:static">
+        <div class="pt-10 px-10 bg-zinc-100 w-full md:flex-1 min-h-screen md:static md:overflow-y-auto">
             <h1 class="font-bold text-3xl text-zinc-900">
                 <?php
                 date_default_timezone_set('Asia/Manila');
@@ -52,9 +52,9 @@ $position = $_SESSION['position'];
 
             <!-- User Profile Image -->
             <div class="flex flex-col gap-5">
-                <div class="flex gap-5 mt-5">
+                <div class="flex flex-col lg:flex-row gap-5 mt-5">
                     <div>
-                        <div class="bg-white relative w-56 h-fit rounded-2xl overflow-hidden">
+                        <div class="bg-white relative w-full h-80 md:w-56 md:h-fit rounded-2xl overflow-hidden">
                             <img src="<?php echo $_SESSION['profileLink'] ?>"
                                 alt="<?php echo "$fullName Profile Picture" ?>"
                                 class="w-full object-cover aspect-square">
@@ -64,7 +64,7 @@ $position = $_SESSION['position'];
                                     <?php echo $fullName ?>
                                 </h1>
                                 <h1 class="text-zinc-950 text-sm opacity-90">
-                                    <?php echo $position ?>
+                                    Employee ID: <?php echo $_SESSION['employeeId'] ?>
                                 </h1>
                             </div>
                         </div>
@@ -74,23 +74,10 @@ $position = $_SESSION['position'];
                     <div class="bg-white w-full p-5 rounded-lg">
                         <h1 class="text-3xl font-bold block mb-3"><?php echo date('F d, Y') ?></h1>
                         <div class="flex gap-3 relative">
-                            <?php if ($isAdmin == 1): ?>
-                                <?php include('../src/components/companyMoney.php'); ?>
-                                <?php include('../src/components/avgCompanyPayroll.php'); ?>
-                                <?php include('../src/components/totalEmployees.php') ?>
-                            <?php elseif ($isAdmin == 0): ?>
-                                <?php include('../src/controllers/isPayrollAvailable.php'); ?>
-                            <?php endif ?>
+                            <?php include('../src/controllers/isPayrollAvailable.php'); ?>
                         </div>
                     </div>
                 </div>
-                <?php
-                if ($isAdmin == 1) {
-                    include('../src/components/employeesTable.php');
-                    include('../src/components/depositModal.php');
-                    include('../src/components/employeeModal.php');
-                }
-                ?>
             </div>
         </div>
     </div>

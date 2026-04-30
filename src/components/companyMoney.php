@@ -19,7 +19,7 @@ if ($oldValue != 0) {
 }
 ?>
 
-<div class="w-56 flex flex-col justify-center bg-gradient-to-b from-green-500 to-green-800 rounded-lg p-5 flex-grow-1">
+<div class="flex flex-col h-full justify-end bg-gradient-to-b from-green-500 to-green-800 rounded-lg p-5 flex-grow-1">
     <div class="mb-3 relative isolate">
         <div class="absolute -top-6 -right-15 opacity-35 -z-10">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
