@@ -50,9 +50,9 @@ $username = $password = "";
                     class="px-3 py-2 border rounded-lg border-zinc-500 focus:outline-blue-500"
                     placeholder="Enter password" value="<?php echo $password ?>" required>
 
-                <p class="text-red-500 text-sm hidden mb-5" id="errorMsg"></p>
+                <p class="text-red-500 text-sm hidden my-2" id="errorMsg"></p>
                 <input type="submit" value="Login"
-                    class="px-2 py-2 mt-5 bg-blue-700 text-white text-center hover:bg-blue-900 transition-colors rounded-lg cursor-pointer font-semibold">
+                    class="px-2 py-2 mt-2 bg-blue-700 text-white text-center hover:bg-blue-900 transition-colors rounded-lg cursor-pointer font-semibold">
             </form>
             <a href="pages/signUpPage.php" class="text-center underline text-blue-800 w-fit mx-auto">Don't have an
                 account?</a>

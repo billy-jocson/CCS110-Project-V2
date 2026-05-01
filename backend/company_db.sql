@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2026 at 08:04 PM
+-- Generation Time: May 01, 2026 at 12:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `company_db2`
+-- Database: `company_db`
 --
 
 -- --------------------------------------------------------
@@ -39,7 +39,9 @@ CREATE TABLE `company_transactions` (
 --
 
 INSERT INTO `company_transactions` (`transaction_id`, `amount`, `currency`, `description`) VALUES
-(1, 145000000.0000, 'PHP', 'Deposit as company money.');
+(1, 144890000.0000, 'PHP', 'Deposit as company money.'),
+(31, 144838000.0000, 'PHP', 'Gave payroll amounting: 52000 — to employee id: 3'),
+(32, 144742600.0000, 'PHP', 'Gave payroll amounting: 95400 — to employee id: 7');
 
 -- --------------------------------------------------------
 
@@ -86,9 +88,8 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`employee_id`, `dept_id`, `user_id`, `first_name`, `last_name`, `contact_no`, `position`, `is_resigned`) VALUES
-(1, 1, 1, 'John', 'Doe', '09171234561', '1', 0),
 (2, 1, 2, 'Alice', 'Smith', '09171234562', '2', 0),
-(3, 1, 3, 'Bob', 'williams', '09171234563', '4', 0),
+(3, 1, 3, 'Bob', 'williams', '09171234563', '4', 1),
 (4, 1, 4, 'Jane', 'Brown', '09171234564', '3', 0),
 (5, 1, 5, 'Mike', 'Garcia', '09171234565', '5', 0),
 (6, 2, 6, 'Chris', 'Miller', '09171234566', '6', 0),
@@ -213,6 +214,14 @@ CREATE TABLE `resignation_request` (
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=pending 1=approved 2=rejected'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `resignation_request`
+--
+
+INSERT INTO `resignation_request` (`resign_id`, `employee_id`, `resignation_letter`, `request_date`, `desired_date`, `status`) VALUES
+(1, 3, 0x617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461, '2026-05-01', '2026-06-01', 1),
+(2, 3, 0x617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364, '2026-05-01', '2026-06-04', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -224,8 +233,21 @@ CREATE TABLE `salary_history` (
   `employee_id` int(11) NOT NULL,
   `salary_id` int(11) NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp(),
-  `salary_amount` int(11) NOT NULL
+  `salary_amount` int(11) NOT NULL,
+  `base_pay` int(15) NOT NULL,
+  `bonus` int(15) NOT NULL,
+  `deduction` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `salary_history`
+--
+
+INSERT INTO `salary_history` (`transaction_id`, `employee_id`, `salary_id`, `date`, `salary_amount`, `base_pay`, `bonus`, `deduction`) VALUES
+(1, 6, 6, '2026-05-01', 110000, 0, 0, 0),
+(2, 3, 3, '2026-05-01', 52000, 0, 0, 0),
+(3, 3, 3, '2026-05-01', 52000, 0, 0, 0),
+(4, 7, 7, '2026-05-01', 95400, 95000, 500, 100);
 
 -- --------------------------------------------------------
 
@@ -238,8 +260,6 @@ CREATE TABLE `salary_structure` (
   `position_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `base_pay` int(11) NOT NULL,
-  `bonus` int(11) NOT NULL,
-  `deduction` int(11) NOT NULL,
   `is_available` tinyint(4) NOT NULL COMMENT '0 = Payroll not available; 1 = Payroll available; -1 Payroll accepted by employee'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -247,32 +267,31 @@ CREATE TABLE `salary_structure` (
 -- Dumping data for table `salary_structure`
 --
 
-INSERT INTO `salary_structure` (`salary_id`, `position_id`, `employee_id`, `base_pay`, `bonus`, `deduction`, `is_available`) VALUES
-(1, 1, 1, 85000, 0, 0, 0),
-(2, 2, 2, 55000, 0, 0, 0),
-(3, 4, 3, 52000, 0, 0, 0),
-(4, 3, 4, 62000, 0, 0, 0),
-(5, 5, 5, 58000, 0, 0, 0),
-(6, 6, 6, 110000, 0, 0, 0),
-(7, 7, 7, 95000, 0, 0, 0),
-(8, 8, 8, 75000, 0, 0, 0),
-(9, 9, 9, 90000, 0, 0, 0),
-(10, 10, 10, 45000, 0, 0, 0),
-(11, 11, 11, 90000, 0, 0, 0),
-(12, 12, 12, 68000, 0, 0, 0),
-(13, 13, 13, 60000, 0, 0, 0),
-(14, 14, 14, 55000, 0, 0, 0),
-(15, 15, 15, 65000, 0, 0, 0),
-(16, 16, 16, 82000, 0, 0, 0),
-(17, 17, 17, 54000, 0, 0, 0),
-(18, 18, 18, 58000, 0, 0, 0),
-(19, 19, 19, 72000, 0, 0, 0),
-(20, 20, 20, 50000, 0, 0, 0),
-(21, 21, 21, 88000, 0, 0, 0),
-(22, 22, 22, 52000, 0, 0, 0),
-(23, 23, 23, 59000, 0, 0, 0),
-(24, 24, 24, 61000, 0, 0, 0),
-(25, 25, 25, 57000, 0, 0, 0);
+INSERT INTO `salary_structure` (`salary_id`, `position_id`, `employee_id`, `base_pay`, `is_available`) VALUES
+(2, 2, 2, 55000, 0),
+(3, 4, 3, 52000, -1),
+(4, 3, 4, 62000, 0),
+(5, 5, 5, 58000, 0),
+(6, 6, 6, 110000, 0),
+(7, 7, 7, 95000, -1),
+(8, 8, 8, 75000, 0),
+(9, 9, 9, 90000, 0),
+(10, 10, 10, 45000, 0),
+(11, 11, 11, 90000, 0),
+(12, 12, 12, 68000, 0),
+(13, 13, 13, 60000, 0),
+(14, 14, 14, 55000, 0),
+(15, 15, 15, 65000, 0),
+(16, 16, 16, 82000, 0),
+(17, 17, 17, 54000, 0),
+(18, 18, 18, 58000, 0),
+(19, 19, 19, 72000, 0),
+(20, 20, 20, 50000, 0),
+(21, 21, 21, 88000, 0),
+(22, 22, 22, 52000, 0),
+(23, 23, 23, 59000, 0),
+(24, 24, 24, 61000, 0),
+(25, 25, 25, 57000, 0);
 
 -- --------------------------------------------------------
 
@@ -294,7 +313,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `password`, `profile_link`, `is_admin`, `is_paid`) VALUES
-(1, 'jdoe1', '$2y$10$v1Bq8w7zkq8Pn9lAX2jPKuhYKxWjWWYQcrVhpQ.KyKqH8QDD11J9O', '../assets/images/userProfiles/789467009717706829.jpg', 0, 0),
 (2, 'asmith2', '$2y$10$0Y/fm8xPLz9wUHkRcflgvO6TD4jl/8mMCtOSdeii4MZIXArTlVX6q', '../assets/images/userProfiles/[Fanart] Dorothy Unsworth, by Julio Leyva.jpg', 1, 0),
 (3, 'bwilliams3', '$2y$10$4BUdlZ7TJ4MwMyyAgptepuqnuhnCuWG2pSgwDsbV4aqyUOg.mFKqS', '../assets/images/userProfiles/FB_IMG_1751650973817.jpg', 0, 0),
 (4, 'jbrown4', '$2y$10$ULy1KSqajZjfy6ODNvjfpO9JkEUbVey5cJK7qDSgs3CDIipp6xlOq', '../assets/images/userProfiles/789467009717706742.jpg', 0, 0),
@@ -395,7 +413,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `company_transactions`
 --
 ALTER TABLE `company_transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -425,13 +443,13 @@ ALTER TABLE `position_salary`
 -- AUTO_INCREMENT for table `resignation_request`
 --
 ALTER TABLE `resignation_request`
-  MODIFY `resign_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `resign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `salary_history`
 --
 ALTER TABLE `salary_history`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `salary_structure`

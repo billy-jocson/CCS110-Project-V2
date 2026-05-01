@@ -33,9 +33,11 @@ $position = $_SESSION['position'];
 
         <div class="w-full md:flex-1 min-h-screen md:static md:overflow-y-auto">
             <div class="h-full flex flex-col p-10">
-                <?php
-                include("../src/controllers/getPayrollHistory.php");
-                ?>
+                <div class="h-fit mb-auto">
+                    <?php
+                    include("../src/controllers/getPayrollHistory.php");
+                    ?>
+                </div>
             </div>
         </div>
     </div>

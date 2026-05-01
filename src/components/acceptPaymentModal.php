@@ -96,7 +96,7 @@ $net = ($result["base_pay"] + $result["bonus"]) - $result["deduction"];
             body: JSON.stringify({ id: id })
         })
             .then(res => res.json())
-            .then(() => {
+            .then(data => {
                 alert("Payment confirmed!");
                 location.reload();
             });

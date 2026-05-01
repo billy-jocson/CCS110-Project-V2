@@ -11,7 +11,17 @@ $stmt->bind_param('s', $_POST['username']);
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 
-if ($result && password_verify($_POST['password'], $result['password']) && $result['is_resigned'] == 0) {
+if (!$result) {
+    echo json_encode(["status" => "error", "msg" => "Account not found."]);
+    exit();
+}
+
+if (
+    $result &&
+    password_verify($_POST['password'], $result['password']) &&
+    ($result['is_resigned'] == "0" || $result['is_resigned'] == "2")
+) {
+
     session_start();
     $_SESSION['fullName'] = "$result[first_name] $result[last_name]";
     $_SESSION['isAdmin'] = $result['is_admin'];
@@ -25,7 +35,7 @@ if ($result && password_verify($_POST['password'], $result['password']) && $resu
 
     echo json_encode(["status" => "success", "msg" => "correct credentials", "isAdmin" => "$adminStatus"]);
 } else {
-    if ($result['is_resigned'] == 1) {
+    if ($result['is_resigned'] == "1") {
         echo json_encode(["status" => "error", "msg" => "Employee is already resigned."]);
     } else {
         echo json_encode(["status" => "error", "msg" => "Incorrect credentials!"]);

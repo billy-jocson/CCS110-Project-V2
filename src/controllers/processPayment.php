@@ -1,7 +1,10 @@
 <?php
 
 include('../../backend/database.php');
+//natagalan me dto na eecho pla toh kaya ayw gumana nilgyan q nyan sabi ni tropa q
+ob_start();
 include 'getCompanyMoney.php';
+ob_clean();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $json = file_get_contents('php://input');
@@ -28,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt2->bind_param("i", $id);
             $stmt2->execute();
 
-            $mysql3 = "INSERT INTO salary_history (employee_id, salary_id, salary_amount) VALUES (?, ?, ?)";
+            $mysql3 = "INSERT INTO salary_history (employee_id, salary_id, salary_amount,base_pay,bonus,deduction) VALUES (?, ?, ?, ?, ? ,?)";
             $stmt3 = $conn->prepare($mysql3);
-            $stmt3->bind_param("iid", $id, $salary_id, $amount);
+            $stmt3->bind_param("iidddd", $id, $salary_id, $amount, $paymentData['base_pay'], $paymentData['bonus'], $paymentData["deduction"]);
             $stmt3->execute();
 
             $mysql4 = "INSERT INTO company_transactions(amount, currency, description) VALUES (?, ?, ?)";

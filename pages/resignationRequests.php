@@ -34,10 +34,10 @@ $position = $_SESSION['position'];
 </head>
 
 <body class="bg-zinc-100">
-    <div class="flex items-start relative">
+    <div class="flex h-screen overflow-hidden">
         <?php include('../src/components/sideBar.php'); ?>
 
-        <div class="pt-10 px-10 bg-zinc-100 w-full min-h-screen absolute left-0 md:static">
+        <div class="flex-1 pt-10 px-10 bg-zinc-100 overflow-y-auto">
 
             <!-- Header -->
             <div>
@@ -46,15 +46,15 @@ $position = $_SESSION['position'];
             </div>
 
             <!-- Table Card -->
-            <div class="bg-white rounded-2xl mt-6 p-6 shadow-sm">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm">
+            <div class="bg-white rounded-2xl mt-6 p-6 w-full shadow-sm">
+                <div class="overflow-x-auto w-full">
+                    <table class="w-full min-w-[640px] text-sm">
                         <thead>
                             <tr class="text-left text-zinc-500 border-b border-zinc-100">
                                 <th class="pb-3 pr-6 font-medium">Employee</th>
                                 <th class="pb-3 pr-6 font-medium">Position</th>
                                 <th class="pb-3 pr-6 font-medium">Status</th>
-                                <th class="pb-3 pr-6 font-medium">Download File</th>
+                                <th class="pb-3 pr-6 font-medium">Reason</th>
                                 <th class="pb-3 font-medium">Action</th>
                             </tr>
                         </thead>
@@ -100,7 +100,7 @@ $position = $_SESSION['position'];
                 </button>
             </div>
             <p id="letterContent"
-                class="text-sm text-zinc-600 leading-relaxed whitespace-pre-wrap bg-zinc-50 rounded-xl p-4 max-h-64 overflow-y-auto">
+                class="text-sm text-zinc-600 leading-relaxed whitespace-pre-wrap break-words w-full bg-zinc-50 rounded-xl p-4 max-h-64 overflow-y-auto overflow-x-hidden">
             </p>
             <div class="mt-5 flex justify-end">
                 <button onclick="closeLetterModal()"

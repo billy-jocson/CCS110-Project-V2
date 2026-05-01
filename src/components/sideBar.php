@@ -158,7 +158,7 @@ function svgStroke($page, $currentPage)
         <img src="<?php echo $_SESSION['profileLink'] ?>" alt="<?php echo $fullName . ' Profile Picture' ?>"
             class="object-cover aspect-square shadow-md rounded-md">
         <div class="md:block">
-            <h1 class="font-bold text-sm"><?php echo $fullName ?></h1>
+            <h1 class="font-bold text-sm w-screen"><?php echo $fullName ?></h1>
             <h1 class="text-xs">Employee ID: <?php echo $_SESSION['employeeId'] ?></h1>
         </div>
     </div>
