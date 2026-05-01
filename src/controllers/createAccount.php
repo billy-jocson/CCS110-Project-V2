@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // Default picture, overwritten if upload succeeds
     $targetPath = '../assets/images/DefaultPFP.png';
-    if (isset($_FILES['profilePicture']['name']) && $_FILES['profilePicture']['error'] === 0) {
+    if (isset($_FILES['profilePicture']['name']) && $_FILES['profilePicture']['error'] == 0) {
         $pfp = basename($_FILES['profilePicture']['name']);
         $targetPath = '../assets/images/userProfiles/' . $pfp;
         move_uploaded_file($_FILES['profilePicture']['tmp_name'], $targetPath);
