@@ -57,8 +57,11 @@ $position = $_SESSION['position'];
 
 <script>
     const payrollTableBody = document.getElementById('payroll-table-body');
+    // const isAdmin = <?php echo json_encode($isAdmin); ?>;
+    // if (isAdmin) {
+    //     fetchPayrollData();
+    // }
     fetchPayrollData();
-
     function fetchPayrollData() {
         fetch('../src/controllers/getPayroll.php')
             .then(response => response.json())
