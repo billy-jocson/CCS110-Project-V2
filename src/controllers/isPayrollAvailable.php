@@ -23,7 +23,7 @@ $data = $stmt->get_result()->fetch_assoc();
 ?>
 
 <!-- Payroll Status Card -->
-<div class="bg-gradient-to-br from-sky-500 to-sky-700 rounded-xl p-4 flex-1 min-w-[160px]">
+<div class="bg-gradient-to-br from-sky-500 to-sky-700 rounded-xl p-4 flex-1 min-w-[160px] h-full">
     <p class="text-xs text-sky-200 mb-1">Payroll Status</p>
     <?php if ($data['is_available'] == 1): ?>
         <span class="inline-flex items-center gap-1 bg-white/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full">

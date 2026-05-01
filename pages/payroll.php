@@ -101,9 +101,9 @@ $position = $_SESSION['position'];
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-700">$${employee.base_pay}</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">$${employee.bonus}</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">$${employee.deduction}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">₱${employee.base_pay}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">₱${employee.bonus}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">₱${employee.deduction}</td>
                         <td class="px-6 py-4">${statusHtml}</td>
                     `;
                     payrollTableBody.appendChild(row);
@@ -181,12 +181,12 @@ $position = $_SESSION['position'];
                     let deducVal = parseFloat(deduc.value) || 0;
 
                     if (isNaN(parseFloat(bonus.value)) && bonus.value !== "") {
-                        netSalary.innerText = "$0";
+                        netSalary.innerText = "₱0";
                         return;
                     }
 
                     if (isNaN(parseFloat(deduc.value)) && deduc.value !== "") {
-                        netSalary.innerText = "$0";
+                        netSalary.innerText = "₱0";
                         return;
                     }
 
@@ -195,10 +195,10 @@ $position = $_SESSION['position'];
                         alert("Deduction is too much!")
                         deduc.value = 0;
                         const resetTotal = basePay + bonusVal;
-                        netSalary.innerText = "$" + resetTotal.toFixed(2);
+                        netSalary.innerText = "₱" + resetTotal.toFixed(2);
                         return
                     }
-                    netSalary.innerText = "$" + total.toFixed(2);
+                    netSalary.innerText = "₱" + total.toFixed(2);
                 }
 
                 bonus.addEventListener("input", updateNetSalary);

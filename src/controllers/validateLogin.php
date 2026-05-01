@@ -8,8 +8,8 @@ $stmt = $conn->prepare("
     LEFT JOIN positions ON employees.position = positions.position_id
     WHERE users.user_name = ?
 ");
-
-$stmt->bind_param('s', $_POST['username']);
+$username = htmlspecialchars($_POST['username']);
+$stmt->bind_param('s', $username);
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 
@@ -20,7 +20,7 @@ if (!$result) {
 
 if (
     $result &&
-    password_verify($_POST['password'], $result['password']) &&
+    password_verify($_POST['password'], htmlspecialchars($result['password'])) &&
     ($result['is_resigned'] == "0" || $result['is_resigned'] == "2")
 ) {
 

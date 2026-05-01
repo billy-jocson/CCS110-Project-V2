@@ -52,9 +52,9 @@ $position = $_SESSION['position'];
 
             <!-- User Profile Image -->
             <div class="flex flex-col gap-5">
-                <div class="flex flex-col lg:flex-row gap-5 mt-5 items-stretch">
+                <div class="flex flex-col lg:flex-row gap-5 mt-5 items-stretch h-auto">
                     <div class="flex-shrink-0">
-                        <div class="bg-white relative w-full h-64 lg:w-56 lg:h-full rounded-2xl overflow-hidden">
+                        <div class="bg-white relative w-full h-64 lg:h-full lg:w-56 rounded-2xl overflow-hidden">
                             <img src="<?php echo $_SESSION['profileLink'] ?>"
                                 alt="<?php echo "$fullName Profile Picture" ?>" class="w-full h-full object-cover">
                             <div
@@ -69,11 +69,10 @@ $position = $_SESSION['position'];
                         </div>
                     </div>
 
-
                     <div class="bg-white w-full p-5 rounded-lg">
                         <small class="text-zinc-800">Today is</small>
                         <h1 class="text-zinc-800 text-3xl font-bold block mb-3"><?php echo date('F d, Y') ?></h1>
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 relative">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative">
                             <?php include('../src/controllers/isPayrollAvailable.php'); ?>
                         </div>
                     </div>
