@@ -106,15 +106,14 @@ INSERT INTO `employees` (`employee_id`, `dept_id`, `user_id`, `first_name`, `las
 (15, 3, 15, 'Naomi', 'Thomas', '09171234575', '15', 0),
 (16, 4, 16, 'Sarah', 'Taylor', '09171234576', '16', 0),
 (17, 4, 17, 'Mark', 'Moore', '09171234577', '17', 0),
-(18, 4, 19, 'Jack', 'Jackson', '09171234578', '18', 0),
-(19, 4, 20, 'Rose', 'Martin', '09171234579', '19', 0),
-(20, 4, 21, 'Lea', 'Lee', '09171234580', '20', 0),
-(21, 5, 22, 'Paul', 'Perez', '09171234581', '21', 0),
-(22, 5, 23, 'Tina', 'Thompson', '09171234582', '22', 0),
-(23, 5, 24, 'Walter', 'White', '09171234583', '23', 0),
-(24, 5, 25, 'Toph', 'Harris', '09171234584', '24', 0),
-(25, 5, 26, 'Sofia', 'Sanchez', 'sanchez25', '25', 0),
-(26, 1, 27, 'Mike', 'Tan', '09999999999', '1', 0);
+(18, 4, 18, 'Jack', 'Jackson', '09171234578', '18', 0),
+(19, 4, 19, 'Rose', 'Martin', '09171234579', '19', 0),
+(20, 4, 20, 'Lea', 'Lee', '09171234580', '20', 0),
+(21, 5, 21, 'Paul', 'Perez', '09171234581', '21', 0),
+(22, 5, 22, 'Tina', 'Thompson', '09171234582', '22', 0),
+(23, 5, 23, 'Walter', 'White', '09171234583', '23', 0),
+(24, 5, 24, 'Toph', 'Harris', '09171234584', '24', 0),
+(25, 5, 25, 'Sofia', 'Sanchez', 'sanchez25', '25', 0);
 
 -- --------------------------------------------------------
 
@@ -268,17 +267,17 @@ CREATE TABLE `salary_structure` (
 
 INSERT INTO `salary_structure` (`salary_id`, `position_id`, `employee_id`, `base_pay`, `deduction`, `bonus`, `is_available`) VALUES
 (2, 2, 2, 55000, 0, 0, 0),
-(3, 4, 3, 52000, 0, 0, -1),
+(3, 4, 3, 52000, 0, 0, 0),
 (4, 3, 4, 62000, 10, 500, 0),
 (5, 5, 5, 58000, 0, 0, 0),
 (6, 6, 6, 110000, 0, 0, 0),
-(7, 7, 7, 95000, 0, 0, -1),
+(7, 7, 7, 95000, 0, 0, 0),
 (8, 8, 8, 75000, 0, 0, 0),
 (9, 9, 9, 90000, 0, 0, 0),
-(10, 10, 10, 45000, 1000, 5000, -1),
+(10, 10, 10, 45000, 1000, 5000, 0),
 (11, 11, 11, 90000, 0, 0, 0),
 (12, 12, 12, 68000, 0, 0, 0),
-(13, 13, 13, 60000, 0, 0, -1),
+(13, 13, 13, 60000, 0, 0, 0),
 (14, 14, 14, 55000, 0, 0, 0),
 (15, 15, 15, 65000, 0, 0, 0),
 (16, 16, 16, 82000, 0, 0, 0),
@@ -290,8 +289,7 @@ INSERT INTO `salary_structure` (`salary_id`, `position_id`, `employee_id`, `base
 (22, 22, 22, 52000, 0, 0, 0),
 (23, 23, 23, 59000, 0, 0, 0),
 (24, 24, 24, 61000, 0, 0, 0),
-(25, 25, 25, 57000, 0, 0, 0),
-(26, 1, 26, 85000, 0, 0, 0);
+(25, 25, 25, 57000, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -328,15 +326,14 @@ INSERT INTO `users` (`user_id`, `user_name`, `password`, `profile_link`, `is_adm
 (15, 'thomas15', '$2y$10$XQYteFS1bygWhzBBVAGZKu.U.LqjsxgG6DDQ0u43w9Alfh6EsPAbG', '../assets/images/userProfiles/images.png', 0),
 (16, 'taylor16', '$2y$10$oigAfgXq4sLdNSbhSyTd2.RmIf14S7Lp07uBn9XJeKYheufwjomQK', '../assets/images/userProfiles/7342ac705f31f9e9ceb9276b6208fed0.jpg', 0),
 (17, 'moore17', '$2y$10$F3Um20HUfj9c90xWY0fVY.xTLYwvkUo1KWviN9M7ffeM0Pyjims5C', '../assets/images/userProfiles/27a008b28fa427f453829e91ee878d42.jpg', 0),
-(19, 'jackson18', '$2y$10$BlKvkcB77uJad/ec.4SL0O0HHuDMwERpN1YBa0yP.peWSgaTbFqHq', '../assets/images/userProfiles/632-Tadashi-Hamada-Costume-featured_600x.png', 0),
-(20, 'martin19', '$2y$10$VM8bp9jaTZ8LGd3/h/wpo.chx0RE..3AmXHDikzWSL72rwO4tDnYm', '../assets/images/userProfiles/Profile_-_Vanellope_Von_schweetz.png', 0),
-(21, 'lee20', '$2y$10$H0DPbju6MihqcUXjs/PtYOkln8uCO6fui0AonB9.Mj.reS5EWXAx.', '../assets/images/userProfiles/new-official-elsa-picture-enhanced-in-better-quality-found-v0-e0spmk1ktm0d1.png', 0),
-(22, 'perez21', '$2y$10$yWZQRMtKyIJgUeEh3lvFXOKDIoJL89TV6p3vfpI7D51OJvRLBSnBS', '../assets/images/userProfiles/images.jpeg', 0),
-(23, 'thompson22', '$2y$10$kcFomdH24Q5VS2V/hy4YeuOOWiAhlIUCJDKm3TtZ8LXP4m17XFHEu', '../assets/images/userProfiles/tumblr_ab01ec99e8a7fda24a49a61b351e7e88_2c1146d2_640.png', 0),
-(24, 'white23', '$2y$10$FFHn3KcJoFAXa0YTx1BHouVUkLV5.ommKCGKlEMHRfVHgUYbb09fK', '../assets/images/userProfiles/adult-swim-reviving-samurai-jack-in-2016.png', 0),
-(25, 'harris24', '$2y$10$l/BzPm8O7a3mVeqkrQcaN.t/PyfhgRpm8IycOVicG5qa4jyosmh/a', '../assets/images/userProfiles/Toph_Beifong.png', 0),
-(26, 'senchez25', '$2y$10$wRgL0G0awWwV34TZtR42JOVGCpDxaRSiTPKV7hLSpysXr0zXZMRPS', '../assets/images/userProfiles/tumblr_orruftJYU91urdh20o1_500.png', 0),
-(27, 'mike', '$2y$10$A0tq61Sz92MAJUgRTXMUiuP3uVw6GG6okAtBEkNBgsIIcifC9aAcu', '../assets/images/DefaultPFP.png', 1);
+(18, 'jackson18', '$2y$10$BlKvkcB77uJad/ec.4SL0O0HHuDMwERpN1YBa0yP.peWSgaTbFqHq', '../assets/images/userProfiles/632-Tadashi-Hamada-Costume-featured_600x.png', 0),
+(19, 'martin19', '$2y$10$VM8bp9jaTZ8LGd3/h/wpo.chx0RE..3AmXHDikzWSL72rwO4tDnYm', '../assets/images/userProfiles/Profile_-_Vanellope_Von_schweetz.png', 0),
+(20, 'lee20', '$2y$10$H0DPbju6MihqcUXjs/PtYOkln8uCO6fui0AonB9.Mj.reS5EWXAx.', '../assets/images/userProfiles/new-official-elsa-picture-enhanced-in-better-quality-found-v0-e0spmk1ktm0d1.png', 0),
+(21, 'perez21', '$2y$10$yWZQRMtKyIJgUeEh3lvFXOKDIoJL89TV6p3vfpI7D51OJvRLBSnBS', '../assets/images/userProfiles/images.jpeg', 0),
+(22, 'thompson22', '$2y$10$kcFomdH24Q5VS2V/hy4YeuOOWiAhlIUCJDKm3TtZ8LXP4m17XFHEu', '../assets/images/userProfiles/tumblr_ab01ec99e8a7fda24a49a61b351e7e88_2c1146d2_640.png', 0),
+(23, 'white23', '$2y$10$FFHn3KcJoFAXa0YTx1BHouVUkLV5.ommKCGKlEMHRfVHgUYbb09fK', '../assets/images/userProfiles/adult-swim-reviving-samurai-jack-in-2016.png', 0),
+(24, 'harris24', '$2y$10$l/BzPm8O7a3mVeqkrQcaN.t/PyfhgRpm8IycOVicG5qa4jyosmh/a', '../assets/images/userProfiles/Toph_Beifong.png', 0),
+(25, 'senchez25', '$2y$10$wRgL0G0awWwV34TZtR42JOVGCpDxaRSiTPKV7hLSpysXr0zXZMRPS', '../assets/images/userProfiles/tumblr_orruftJYU91urdh20o1_500.png', 0);
 
 --
 -- Indexes for dumped tables
