@@ -63,7 +63,7 @@ $position = $_SESSION['position'];
                                 <?php echo $fullName ?>
                             </h1>
                             <h1 class="text-zinc-950 text-sm opacity-90">
-                                <?php echo $position ?>
+                                Employee ID: <?php echo $position ?>
                             </h1>
                         </div>
                     </div>

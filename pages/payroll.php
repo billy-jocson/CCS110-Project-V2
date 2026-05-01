@@ -28,7 +28,7 @@ $position = $_SESSION['position'];
             </div>
 
             <!-- Table Card -->
-            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white rounded-2xl w-full shadow-sm overflow-scroll">
                 <table class="w-full">
                     <thead>
                         <tr class="border-b border-gray-100">

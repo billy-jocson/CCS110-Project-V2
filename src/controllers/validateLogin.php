@@ -1,9 +1,11 @@
 <?php
 header('Content-Type: application/json');
 include('../../backend/database.php');
-$stmt = $conn->prepare("SELECT users.*, employees.employee_id, employees.is_resigned, employees.position, employees.first_name, employees.last_name
+$stmt = $conn->prepare("
+    SELECT users.*, positions.position_name, employees.employee_id, employees.is_resigned, employees.position, employees.first_name, employees.last_name
     FROM users
     LEFT JOIN employees ON users.user_id = employees.user_id
+    LEFT JOIN positions ON employees.position = positions.position_id
     WHERE users.user_name = ?
 ");
 
@@ -28,6 +30,7 @@ if (
     $_SESSION['profileLink'] = $result['profile_link'];
     $_SESSION['position'] = $result['position'];
     $_SESSION['employeeId'] = $result['employee_id'];
+    $_SESSION['posName'] = $result['position_name'];
     $adminStatus = 0;
     if ($_SESSION['isAdmin'] == 1) {
         $adminStatus = 1;
