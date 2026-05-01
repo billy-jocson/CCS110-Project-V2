@@ -1,5 +1,5 @@
 <!-- MODAL -->
-<div class="flex invisible bg-black/0 w-full h-full absolute z-55 top-0 left-0 transition-all duration-400 ease-out"
+<div class="flex fixed invisible bg-black/0 w-full h-full absolute z-55 top-0 left-0 transition-all duration-400 ease-out"
     id="blurBg">
     <div class="bg-zinc-100 w-[30%] h-fit m-auto rounded-2xl p-4 overflow-hidden relative flex flex-col opacity-0 scale-95 transition-all duration-400 ease-out"
         id="employeeDetails">

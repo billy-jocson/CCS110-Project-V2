@@ -56,7 +56,7 @@ $net = ($result["base_pay"] + $result["bonus"]) - $result["deduction"];
 
                     <?php if ($result["is_available"] == 1): ?>
                         <button onclick="acceptPayment(<?= $id ?>)"
-                            class="w-full py-4 bg-sky-600 text-white rounded-xl font-bold hover:bg-sky-700 transition shadow-md">
+                            class="cursor-pointer w-full py-4 bg-sky-600 text-white rounded-xl font-bold hover:bg-sky-700 transition shadow-md">
                             Confirm Receipt
                         </button>
 

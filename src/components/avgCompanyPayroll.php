@@ -1,6 +1,8 @@
 <?php
 include '../backend/database.php';
-$stmt = $conn->prepare('SELECT AVG(base_pay + bonus + deduction) as average FROM salary_structure');
+$stmt = $conn->prepare("
+SELECT AVG(base_pay + bonus + deduction) as average FROM salary_structure WHERE employee_id IN(SELECT employee_id FROM employees WHERE is_resigned = 0);
+");
 $stmt->execute();
 $avg = $stmt->get_result()->fetch_assoc();
 ?>

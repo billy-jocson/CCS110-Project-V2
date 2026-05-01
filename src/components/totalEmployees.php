@@ -1,3 +1,7 @@
+<?php
+$stmt = mysqli_query($conn, 'SELECT COUNT(*) as total_employees FROM employees WHERE is_resigned = 0');
+$totalEmployees = $stmt->fetch_assoc();
+?>
 <div
     class="bg-gradient-to-b from-purple-500 to-purple-800 text-white p-5 w-full h-full overflow-hidden rounded-lg relative flex-grow-1">
     <div class="absolute top-0 -right-8 opacity-35">

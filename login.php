@@ -54,8 +54,6 @@ $username = $password = "";
                 <input type="submit" value="Login"
                     class="px-2 py-2 mt-2 bg-blue-700 text-white text-center hover:bg-blue-900 transition-colors rounded-lg cursor-pointer font-semibold">
             </form>
-            <a href="pages/signUpPage.php" class="text-center underline text-blue-800 w-fit mx-auto">Don't have an
-                account?</a>
         </div>
     </div>
 

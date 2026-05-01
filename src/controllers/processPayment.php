@@ -1,7 +1,6 @@
 <?php
 
 include('../../backend/database.php');
-//natagalan me dto na eecho pla toh kaya ayw gumana nilgyan q nyan sabi ni tropa q
 ob_start();
 include 'getCompanyMoney.php';
 ob_clean();

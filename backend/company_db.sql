@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2026 at 12:10 PM
+-- Generation Time: May 01, 2026 at 02:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,9 @@ CREATE TABLE `company_transactions` (
 INSERT INTO `company_transactions` (`transaction_id`, `amount`, `currency`, `description`) VALUES
 (1, 144890000.0000, 'PHP', 'Deposit as company money.'),
 (31, 144838000.0000, 'PHP', 'Gave payroll amounting: 52000 — to employee id: 3'),
-(32, 144742600.0000, 'PHP', 'Gave payroll amounting: 95400 — to employee id: 7');
+(32, 144742600.0000, 'PHP', 'Gave payroll amounting: 95400 — to employee id: 7'),
+(33, 144693600.0000, 'PHP', 'Gave payroll amounting: 49000 — to employee id: 10'),
+(34, 144633600.0000, 'PHP', 'Gave payroll amounting: 60000 — to employee id: 13');
 
 -- --------------------------------------------------------
 
@@ -89,7 +91,7 @@ CREATE TABLE `employees` (
 
 INSERT INTO `employees` (`employee_id`, `dept_id`, `user_id`, `first_name`, `last_name`, `contact_no`, `position`, `is_resigned`) VALUES
 (2, 1, 2, 'Alice', 'Smith', '09171234562', '2', 0),
-(3, 1, 3, 'Bob', 'williams', '09171234563', '4', 1),
+(3, 1, 3, 'Bob', 'williams', '09171234563', '4', 0),
 (4, 1, 4, 'Jane', 'Brown', '09171234564', '3', 0),
 (5, 1, 5, 'Mike', 'Garcia', '09171234565', '5', 0),
 (6, 2, 6, 'Chris', 'Miller', '09171234566', '6', 0),
@@ -111,7 +113,8 @@ INSERT INTO `employees` (`employee_id`, `dept_id`, `user_id`, `first_name`, `las
 (22, 5, 23, 'Tina', 'Thompson', '09171234582', '22', 0),
 (23, 5, 24, 'Walter', 'White', '09171234583', '23', 0),
 (24, 5, 25, 'Toph', 'Harris', '09171234584', '24', 0),
-(25, 5, 26, 'Sofia', 'Sanchez', 'sanchez25', '25', 0);
+(25, 5, 26, 'Sofia', 'Sanchez', 'sanchez25', '25', 0),
+(26, 1, 27, 'Mike', 'Tan', '09999999999', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -214,14 +217,6 @@ CREATE TABLE `resignation_request` (
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=pending 1=approved 2=rejected'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `resignation_request`
---
-
-INSERT INTO `resignation_request` (`resign_id`, `employee_id`, `resignation_letter`, `request_date`, `desired_date`, `status`) VALUES
-(1, 3, 0x617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461617364617364616461, '2026-05-01', '2026-06-01', 1),
-(2, 3, 0x617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364617364, '2026-05-01', '2026-06-04', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -247,7 +242,9 @@ INSERT INTO `salary_history` (`transaction_id`, `employee_id`, `salary_id`, `dat
 (1, 6, 6, '2026-05-01', 110000, 0, 0, 0),
 (2, 3, 3, '2026-05-01', 52000, 0, 0, 0),
 (3, 3, 3, '2026-05-01', 52000, 0, 0, 0),
-(4, 7, 7, '2026-05-01', 95400, 95000, 500, 100);
+(4, 7, 7, '2026-05-01', 95400, 95000, 500, 100),
+(5, 10, 10, '2026-05-01', 49000, 45000, 5000, 1000),
+(6, 13, 13, '2026-05-01', 60000, 60000, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -260,6 +257,8 @@ CREATE TABLE `salary_structure` (
   `position_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `base_pay` int(11) NOT NULL,
+  `deduction` int(11) NOT NULL,
+  `bonus` int(11) NOT NULL,
   `is_available` tinyint(4) NOT NULL COMMENT '0 = Payroll not available; 1 = Payroll available; -1 Payroll accepted by employee'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -267,31 +266,32 @@ CREATE TABLE `salary_structure` (
 -- Dumping data for table `salary_structure`
 --
 
-INSERT INTO `salary_structure` (`salary_id`, `position_id`, `employee_id`, `base_pay`, `is_available`) VALUES
-(2, 2, 2, 55000, 0),
-(3, 4, 3, 52000, -1),
-(4, 3, 4, 62000, 0),
-(5, 5, 5, 58000, 0),
-(6, 6, 6, 110000, 0),
-(7, 7, 7, 95000, -1),
-(8, 8, 8, 75000, 0),
-(9, 9, 9, 90000, 0),
-(10, 10, 10, 45000, 0),
-(11, 11, 11, 90000, 0),
-(12, 12, 12, 68000, 0),
-(13, 13, 13, 60000, 0),
-(14, 14, 14, 55000, 0),
-(15, 15, 15, 65000, 0),
-(16, 16, 16, 82000, 0),
-(17, 17, 17, 54000, 0),
-(18, 18, 18, 58000, 0),
-(19, 19, 19, 72000, 0),
-(20, 20, 20, 50000, 0),
-(21, 21, 21, 88000, 0),
-(22, 22, 22, 52000, 0),
-(23, 23, 23, 59000, 0),
-(24, 24, 24, 61000, 0),
-(25, 25, 25, 57000, 0);
+INSERT INTO `salary_structure` (`salary_id`, `position_id`, `employee_id`, `base_pay`, `deduction`, `bonus`, `is_available`) VALUES
+(2, 2, 2, 55000, 0, 0, 0),
+(3, 4, 3, 52000, 0, 0, -1),
+(4, 3, 4, 62000, 10, 500, 0),
+(5, 5, 5, 58000, 0, 0, 0),
+(6, 6, 6, 110000, 0, 0, 0),
+(7, 7, 7, 95000, 0, 0, -1),
+(8, 8, 8, 75000, 0, 0, 0),
+(9, 9, 9, 90000, 0, 0, 0),
+(10, 10, 10, 45000, 1000, 5000, -1),
+(11, 11, 11, 90000, 0, 0, 0),
+(12, 12, 12, 68000, 0, 0, 0),
+(13, 13, 13, 60000, 0, 0, -1),
+(14, 14, 14, 55000, 0, 0, 0),
+(15, 15, 15, 65000, 0, 0, 0),
+(16, 16, 16, 82000, 0, 0, 0),
+(17, 17, 17, 54000, 0, 0, 0),
+(18, 18, 18, 58000, 0, 0, 0),
+(19, 19, 19, 72000, 0, 0, 0),
+(20, 20, 20, 50000, 0, 0, 0),
+(21, 21, 21, 88000, 0, 0, 0),
+(22, 22, 22, 52000, 0, 0, 0),
+(23, 23, 23, 59000, 0, 0, 0),
+(24, 24, 24, 61000, 0, 0, 0),
+(25, 25, 25, 57000, 0, 0, 0),
+(26, 1, 26, 85000, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -304,39 +304,39 @@ CREATE TABLE `users` (
   `user_name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `profile_link` varchar(255) DEFAULT NULL,
-  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
-  `is_paid` tinyint(1) NOT NULL DEFAULT 0
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `password`, `profile_link`, `is_admin`, `is_paid`) VALUES
-(2, 'asmith2', '$2y$10$0Y/fm8xPLz9wUHkRcflgvO6TD4jl/8mMCtOSdeii4MZIXArTlVX6q', '../assets/images/userProfiles/[Fanart] Dorothy Unsworth, by Julio Leyva.jpg', 1, 0),
-(3, 'bwilliams3', '$2y$10$4BUdlZ7TJ4MwMyyAgptepuqnuhnCuWG2pSgwDsbV4aqyUOg.mFKqS', '../assets/images/userProfiles/FB_IMG_1751650973817.jpg', 0, 0),
-(4, 'jbrown4', '$2y$10$ULy1KSqajZjfy6ODNvjfpO9JkEUbVey5cJK7qDSgs3CDIipp6xlOq', '../assets/images/userProfiles/789467009717706742.jpg', 0, 0),
-(5, 'mgarcia5', '$2y$10$EMgtMWocMnDNLK3c/oSTBOxIG1mtFSJDxaxFoVDMh6/XtMWh1Da1O', '../assets/images/userProfiles/images (5).jpeg', 0, 0),
-(6, 'miller6', '$2y$10$HFjOwz0CDt.WKxbXkAlLl.7tLEsGNA5ELpVDOsi/g9ViWCtkJR5Tu', '../assets/images/userProfiles/bdbfcb6d12c0e1a92affe66462da54cf.jpg', 0, 0),
-(7, 'davis7', '$2y$10$T7KjxRKQ1q5bAdVwp.tV7uFfayM3/8MpjvVdK1zFeiJQplpIsYRUm', '../assets/images/userProfiles/cv-color-thumbnail.png', 0, 0),
-(8, 'crodriguez8', '$2y$10$vDtQFhbKBrBXakZ/LNgMHON9pQb5t0bY1.1Z3qWLsWzLPoIM3tAaW', '../assets/images/userProfiles/650865454c2393ac25712abe_professional_selfie_blur-bg-550x483.jpeg', 0, 0),
-(9, 'smartinez9', '$2y$10$5lGHLFj5J0914YrVpIQJxO.eokmdjueDN.lGr78i5glBKU3qrtVpC', '../assets/images/userProfiles/cv_photo_exemple_1.jpg', 0, 0),
-(10, 'hernandez10', '$2y$10$wQDaZNtJ3uXkxoDJL6iddeIBB0rwsr6PybqBx2cBUQqrhXHcKsKHq', '../assets/images/userProfiles/images.jpeg', 0, 0),
-(11, 'lopez11', '$2y$10$5insKfK2sUpIMlPy5V/5uOop.0nWb5605Phj93w2a7lWq45FW7mvm', '../assets/images/userProfiles/harry-potter-top-10-hermione-granger-moments-hermione-granger-358045.jpg', 0, 0),
-(12, 'gonzalez12', '$2y$10$aae4iFulU18MRBxsy5G3veco82b0d2RKkSjND93.cADJExooKO4vu', '../assets/images/userProfiles/Ryan-Reynolds-2011.jpg', 0, 0),
-(13, 'wilson13', '$2y$10$WK2ALSKMDWgRii5ZDiqdB.YB2bu7DAahRCYjssnxXvtgdGrMDkm6W', '../assets/images/userProfiles/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg', 0, 0),
-(14, 'anderson14', '$2y$10$sxzNrEKnqWq1FnmmpY6SSO9aCotsTA12WLJ0WMHeW0TAIMiIhF1SG', '../assets/images/userProfiles/beauty-2013-06-emma-stone-baking-soda-skincare-secret-main.jpg', 0, 0),
-(15, 'thomas15', '$2y$10$XQYteFS1bygWhzBBVAGZKu.U.LqjsxgG6DDQ0u43w9Alfh6EsPAbG', '../assets/images/userProfiles/images.png', 0, 0),
-(16, 'taylor16', '$2y$10$oigAfgXq4sLdNSbhSyTd2.RmIf14S7Lp07uBn9XJeKYheufwjomQK', '../assets/images/userProfiles/7342ac705f31f9e9ceb9276b6208fed0.jpg', 0, 0),
-(17, 'moore17', '$2y$10$F3Um20HUfj9c90xWY0fVY.xTLYwvkUo1KWviN9M7ffeM0Pyjims5C', '../assets/images/userProfiles/27a008b28fa427f453829e91ee878d42.jpg', 0, 0),
-(19, 'jackson18', '$2y$10$BlKvkcB77uJad/ec.4SL0O0HHuDMwERpN1YBa0yP.peWSgaTbFqHq', '../assets/images/userProfiles/632-Tadashi-Hamada-Costume-featured_600x.png', 0, 0),
-(20, 'martin19', '$2y$10$VM8bp9jaTZ8LGd3/h/wpo.chx0RE..3AmXHDikzWSL72rwO4tDnYm', '../assets/images/userProfiles/Profile_-_Vanellope_Von_schweetz.png', 0, 0),
-(21, 'lee20', '$2y$10$H0DPbju6MihqcUXjs/PtYOkln8uCO6fui0AonB9.Mj.reS5EWXAx.', '../assets/images/userProfiles/new-official-elsa-picture-enhanced-in-better-quality-found-v0-e0spmk1ktm0d1.png', 0, 0),
-(22, 'perez21', '$2y$10$yWZQRMtKyIJgUeEh3lvFXOKDIoJL89TV6p3vfpI7D51OJvRLBSnBS', '../assets/images/userProfiles/images.jpeg', 0, 0),
-(23, 'thompson22', '$2y$10$kcFomdH24Q5VS2V/hy4YeuOOWiAhlIUCJDKm3TtZ8LXP4m17XFHEu', '../assets/images/userProfiles/tumblr_ab01ec99e8a7fda24a49a61b351e7e88_2c1146d2_640.png', 0, 0),
-(24, 'white23', '$2y$10$FFHn3KcJoFAXa0YTx1BHouVUkLV5.ommKCGKlEMHRfVHgUYbb09fK', '../assets/images/userProfiles/adult-swim-reviving-samurai-jack-in-2016.png', 0, 0),
-(25, 'harris24', '$2y$10$l/BzPm8O7a3mVeqkrQcaN.t/PyfhgRpm8IycOVicG5qa4jyosmh/a', '../assets/images/userProfiles/Toph_Beifong.png', 0, 0),
-(26, 'senchez25', '$2y$10$wRgL0G0awWwV34TZtR42JOVGCpDxaRSiTPKV7hLSpysXr0zXZMRPS', '../assets/images/userProfiles/tumblr_orruftJYU91urdh20o1_500.png', 0, 0);
+INSERT INTO `users` (`user_id`, `user_name`, `password`, `profile_link`, `is_admin`) VALUES
+(2, 'asmith2', '$2y$10$0Y/fm8xPLz9wUHkRcflgvO6TD4jl/8mMCtOSdeii4MZIXArTlVX6q', '../assets/images/userProfiles/[Fanart] Dorothy Unsworth, by Julio Leyva.jpg', 1),
+(3, 'bwilliams3', '$2y$10$4BUdlZ7TJ4MwMyyAgptepuqnuhnCuWG2pSgwDsbV4aqyUOg.mFKqS', '../assets/images/userProfiles/FB_IMG_1751650973817.jpg', 1),
+(4, 'jbrown4', '$2y$10$ULy1KSqajZjfy6ODNvjfpO9JkEUbVey5cJK7qDSgs3CDIipp6xlOq', '../assets/images/userProfiles/789467009717706742.jpg', 1),
+(5, 'mgarcia5', '$2y$10$EMgtMWocMnDNLK3c/oSTBOxIG1mtFSJDxaxFoVDMh6/XtMWh1Da1O', '../assets/images/userProfiles/images (5).jpeg', 1),
+(6, 'miller6', '$2y$10$HFjOwz0CDt.WKxbXkAlLl.7tLEsGNA5ELpVDOsi/g9ViWCtkJR5Tu', '../assets/images/userProfiles/bdbfcb6d12c0e1a92affe66462da54cf.jpg', 0),
+(7, 'davis7', '$2y$10$T7KjxRKQ1q5bAdVwp.tV7uFfayM3/8MpjvVdK1zFeiJQplpIsYRUm', '../assets/images/userProfiles/cv-color-thumbnail.png', 0),
+(8, 'crodriguez8', '$2y$10$vDtQFhbKBrBXakZ/LNgMHON9pQb5t0bY1.1Z3qWLsWzLPoIM3tAaW', '../assets/images/userProfiles/650865454c2393ac25712abe_professional_selfie_blur-bg-550x483.jpeg', 0),
+(9, 'smartinez9', '$2y$10$5lGHLFj5J0914YrVpIQJxO.eokmdjueDN.lGr78i5glBKU3qrtVpC', '../assets/images/userProfiles/cv_photo_exemple_1.jpg', 0),
+(10, 'hernandez10', '$2y$10$wQDaZNtJ3uXkxoDJL6iddeIBB0rwsr6PybqBx2cBUQqrhXHcKsKHq', '../assets/images/userProfiles/images.jpeg', 0),
+(11, 'lopez11', '$2y$10$5insKfK2sUpIMlPy5V/5uOop.0nWb5605Phj93w2a7lWq45FW7mvm', '../assets/images/userProfiles/harry-potter-top-10-hermione-granger-moments-hermione-granger-358045.jpg', 0),
+(12, 'gonzalez12', '$2y$10$aae4iFulU18MRBxsy5G3veco82b0d2RKkSjND93.cADJExooKO4vu', '../assets/images/userProfiles/Ryan-Reynolds-2011.jpg', 0),
+(13, 'wilson13', '$2y$10$WK2ALSKMDWgRii5ZDiqdB.YB2bu7DAahRCYjssnxXvtgdGrMDkm6W', '../assets/images/userProfiles/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg', 0),
+(14, 'anderson14', '$2y$10$sxzNrEKnqWq1FnmmpY6SSO9aCotsTA12WLJ0WMHeW0TAIMiIhF1SG', '../assets/images/userProfiles/beauty-2013-06-emma-stone-baking-soda-skincare-secret-main.jpg', 0),
+(15, 'thomas15', '$2y$10$XQYteFS1bygWhzBBVAGZKu.U.LqjsxgG6DDQ0u43w9Alfh6EsPAbG', '../assets/images/userProfiles/images.png', 0),
+(16, 'taylor16', '$2y$10$oigAfgXq4sLdNSbhSyTd2.RmIf14S7Lp07uBn9XJeKYheufwjomQK', '../assets/images/userProfiles/7342ac705f31f9e9ceb9276b6208fed0.jpg', 0),
+(17, 'moore17', '$2y$10$F3Um20HUfj9c90xWY0fVY.xTLYwvkUo1KWviN9M7ffeM0Pyjims5C', '../assets/images/userProfiles/27a008b28fa427f453829e91ee878d42.jpg', 0),
+(19, 'jackson18', '$2y$10$BlKvkcB77uJad/ec.4SL0O0HHuDMwERpN1YBa0yP.peWSgaTbFqHq', '../assets/images/userProfiles/632-Tadashi-Hamada-Costume-featured_600x.png', 0),
+(20, 'martin19', '$2y$10$VM8bp9jaTZ8LGd3/h/wpo.chx0RE..3AmXHDikzWSL72rwO4tDnYm', '../assets/images/userProfiles/Profile_-_Vanellope_Von_schweetz.png', 0),
+(21, 'lee20', '$2y$10$H0DPbju6MihqcUXjs/PtYOkln8uCO6fui0AonB9.Mj.reS5EWXAx.', '../assets/images/userProfiles/new-official-elsa-picture-enhanced-in-better-quality-found-v0-e0spmk1ktm0d1.png', 0),
+(22, 'perez21', '$2y$10$yWZQRMtKyIJgUeEh3lvFXOKDIoJL89TV6p3vfpI7D51OJvRLBSnBS', '../assets/images/userProfiles/images.jpeg', 0),
+(23, 'thompson22', '$2y$10$kcFomdH24Q5VS2V/hy4YeuOOWiAhlIUCJDKm3TtZ8LXP4m17XFHEu', '../assets/images/userProfiles/tumblr_ab01ec99e8a7fda24a49a61b351e7e88_2c1146d2_640.png', 0),
+(24, 'white23', '$2y$10$FFHn3KcJoFAXa0YTx1BHouVUkLV5.ommKCGKlEMHRfVHgUYbb09fK', '../assets/images/userProfiles/adult-swim-reviving-samurai-jack-in-2016.png', 0),
+(25, 'harris24', '$2y$10$l/BzPm8O7a3mVeqkrQcaN.t/PyfhgRpm8IycOVicG5qa4jyosmh/a', '../assets/images/userProfiles/Toph_Beifong.png', 0),
+(26, 'senchez25', '$2y$10$wRgL0G0awWwV34TZtR42JOVGCpDxaRSiTPKV7hLSpysXr0zXZMRPS', '../assets/images/userProfiles/tumblr_orruftJYU91urdh20o1_500.png', 0),
+(27, 'mike', '$2y$10$A0tq61Sz92MAJUgRTXMUiuP3uVw6GG6okAtBEkNBgsIIcifC9aAcu', '../assets/images/DefaultPFP.png', 1);
 
 --
 -- Indexes for dumped tables
@@ -413,7 +413,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `company_transactions`
 --
 ALTER TABLE `company_transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -425,7 +425,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `positions`
@@ -443,25 +443,25 @@ ALTER TABLE `position_salary`
 -- AUTO_INCREMENT for table `resignation_request`
 --
 ALTER TABLE `resignation_request`
-  MODIFY `resign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `resign_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salary_history`
 --
 ALTER TABLE `salary_history`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `salary_structure`
 --
 ALTER TABLE `salary_structure`
-  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables

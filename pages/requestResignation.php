@@ -60,9 +60,8 @@ $checkStmt->close();
                     <i class="fa-solid fa-clock text-amber-500 text-2xl mt-0.5"></i>
                     <div>
                         <h2 class="font-bold text-amber-800 text-lg">Pending Resignation Request</h2>
-                        <p class="text-amber-700 text-sm mt-1">You already have a resignation request that is currently
-                            under review. You cannot submit a new request until your current one
-                            has been processed.</p>
+                        <p class="text-amber-700 text-sm mt-1">Your resignation request is currently
+                            under review.</p>
                     </div>
                 </div>
 
@@ -94,7 +93,6 @@ $checkStmt->close();
                                     class="text-red-500">*</span></label>
                             <input type="date" id="desiredDate" required
                                 class="w-full border border-zinc-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100">
-                            <p class="text-xs text-zinc-400 mt-1">Must be at least 30 days from today</p>
                         </div>
 
                         <!-- Error/Success Messages -->
@@ -231,7 +229,7 @@ $checkStmt->close();
 
                     setTimeout(() => {
                         window.location.href = 'dashboard.php';
-                    }, 2000);
+                    }, 500);
                 } else {
                     showMessage(data.msg, 'error');
                     // Re-enable button on error

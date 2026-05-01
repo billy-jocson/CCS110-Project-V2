@@ -9,8 +9,6 @@ include('../backend/database.php');
 $fullName = $_SESSION["fullName"];
 $isAdmin = $_SESSION["isAdmin"];
 $position = $_SESSION['position'];
-$stmt = mysqli_query($conn, 'SELECT COUNT(*) as total_employees FROM employees');
-$totalEmployees = $stmt->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">

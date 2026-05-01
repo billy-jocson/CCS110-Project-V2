@@ -471,10 +471,12 @@ $position = $_SESSION['position'];
         async function submitAdd() {
             const username = document.getElementById('addUsername').value.trim();
             const password = document.getElementById('addPassword').value.trim();
+
             if (!username || !password) {
                 alert('Please enter a username and password.');
                 return;
             }
+
             const formData = new FormData();
             formData.append('createAccount', '1');
             formData.append('firstName', document.getElementById('addFirstName').value);
@@ -484,6 +486,7 @@ $position = $_SESSION['position'];
             formData.append('position', document.getElementById('addPosition').value);
             formData.append('username', username);
             formData.append('password', password);
+
             const pfp = document.getElementById('addProfilePicture').files[0];
             if (pfp) formData.append('profilePicture', pfp);
 
