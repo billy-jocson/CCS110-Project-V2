@@ -1,14 +1,10 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['fullName'])) {
-    header('Location: ../login.php');
-}
-
 $fullName = $_SESSION["fullName"];
 $isAdmin = $_SESSION["isAdmin"];
 $position = $_SESSION['position'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,18 +17,19 @@ $position = $_SESSION['position'];
     <script src="../assets/css/tailwindcss.js"></script>
 </head>
 
-<body class="bg-zinc-100">
+<body class="bg-gray-100 min-h-screen flex">
     <?php if ($isAdmin): ?>
-        <div class="flex h-screen overflow-hidden">
-            <?php include('../src/components/sideBar.php'); ?>
+        <?php include '../src/components/sidebar.php'; ?>
+        <!-- Page Header -->
+        <div class="w-full m-5">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">Payroll</h1>
+                <p class="text-sm text-gray-500 mt-1">Give your employees' payrolls here.</p>
+            </div>
 
             <!-- Table Card -->
-            <div class="bg-zinc-100 w-full shadow-sm overflow-scroll p-8">
-                <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-gray-900">Payroll</h1>
-                    <p class="text-sm text-gray-500 mt-1">Give your employees' payrolls here.</p>
-                </div>
-                <table class="w-full bg-white rounded-2xl">
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <table class="w-full">
                     <thead>
                         <tr class="border-b border-gray-100">
                             <th class="text-left text-sm font-medium text-gray-500 px-6 py-4">Employee Name</th>
@@ -47,14 +44,15 @@ $position = $_SESSION['position'];
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <?php include('../src/components/employeeModal.php'); ?>
+        <?php include('../src/components/employeeModal.php'); ?>
+    <?php else: ?>
+        <div class="w-full mx-auto">
+            <?php include('../src/components/acceptPaymentModal.php'); ?>
         </div>
     <?php endif; ?>
-    <?php if (!$isAdmin) {
-        include("../src/components/acceptPaymentModal.php");
-    }
-    ?>
+
 </body>
 
 <script>
@@ -130,24 +128,39 @@ $position = $_SESSION['position'];
             })
         }).then(res => res.json())
             .then(data => {
-                console.log(data[0]);
+                const bonus = document.getElementById('bonusInput');
+                const deduc = document.getElementById('deducInput');
                 document.getElementById('profilePicture').src = `${data[0].profile_link}`;
                 document.getElementById('username').innerText = data[0].user_name;
                 document.getElementById('name').innerText = data[0].full_name;
                 document.getElementById('position').innerText = data[0].position_name;
                 document.getElementById('basePay').innerText = `$${data[0].base_pay}`;
-                document.getElementById('bonus').innerText = `$${data[0].bonus}`;
-                document.getElementById('deduction').innerText = `$${data[0].deduction}`;
+                bonus.value = `${data[0].bonus}`;
+                deduc.value = `${data[0].deduction}`;
                 document.getElementById('netSalary').innerText = `$${(parseFloat(data[0].base_pay) + parseFloat(data[0].bonus)) - parseFloat(data[0].deduction)}`;
 
                 document.getElementById('givePayrollBtn').onclick = function () {
+                    const inputDeduc = deduc.value;
+                    const inputBonus = bonus.value;
+                    if (inputDeduc < 0 || inputBonus < 0) {
+                        alert("Inputs should not be negative");
+                        return
+                    } else if (isNaN(inputDeduc) || isNaN(inputBonus)) {
+                        alert("Inputs should be numeric");
+                        return
+                    } else if (!inputDeduc || !inputBonus) {
+                        alert("Required Fields!")
+                        return
+                    }
                     fetch('../src/controllers/givePayroll.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            id: dataId
+                            id: dataId,
+                            bonus: inputBonus,
+                            deduc: inputDeduc
                         })
                     }).then(res => res.json())
                         .then(data => {
@@ -156,6 +169,37 @@ $position = $_SESSION['position'];
                             fetchPayrollData();
                         })
                 }
+                const netSalary = document.getElementById('netSalary');
+                const basePay = parseFloat(data[0].base_pay);
+
+                function updateNetSalary() {
+
+                    let bonusVal = parseFloat(bonus.value) || 0;
+                    let deducVal = parseFloat(deduc.value) || 0;
+
+                    if (isNaN(parseFloat(bonus.value)) && bonus.value !== "") {
+                        netSalary.innerText = "$0";
+                        return;
+                    }
+
+                    if (isNaN(parseFloat(deduc.value)) && deduc.value !== "") {
+                        netSalary.innerText = "$0";
+                        return;
+                    }
+
+                    const total = basePay + bonusVal - deducVal;
+                    if (total < 0) {
+                        alert("Deduction is too much!")
+                        deduc.value = 0;
+                        const resetTotal = basePay + bonusVal;
+                        netSalary.innerText = "$" + resetTotal.toFixed(2);
+                        return
+                    }
+                    netSalary.innerText = "$" + total.toFixed(2);
+                }
+
+                bonus.addEventListener("input", updateNetSalary);
+                deduc.addEventListener("input", updateNetSalary);
             })
     }
 </script>

@@ -34,11 +34,27 @@
             </div>
             <div class="flex justify-between text-sm">
                 <h1 class="text-zinc-400">Bonus</h1>
-                <h1 id="bonus"></h1>
+                <div
+                    class="flex items-center rounded-xl border border-[#a9a4cc] overflow-hidden h-7 focus-within:border-[#6c65b0] focus-within:ring-1 focus-within:ring-[#6c65b0]/20 transition-all bg-white">
+                    <div
+                        class="flex items-center justify-center bg-[#9b96c8] text-white text-sm font-semibold w-9 h-full shrink-0">
+                        ₱
+                    </div>
+                    <input type="text" id="bonusInput"
+                        class="flex-1 h-full px-1 text-right text-sm text-gray-800 bg-transparent outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                </div>
             </div>
             <div class="flex justify-between text-sm">
                 <h1 class="text-zinc-400">Deduction</h1>
-                <h1 id="deduction"></h1>
+                <div
+                    class="flex items-center rounded-xl border border-[#a9a4cc] overflow-hidden h-7 focus-within:border-[#6c65b0] focus-within:ring-1 focus-within:ring-[#6c65b0]/20 transition-all bg-white">
+                    <div
+                        class="flex items-center justify-center bg-[#9b96c8] text-white text-sm font-semibold w-9 h-full shrink-0">
+                        ₱
+                    </div>
+                    <input type="text" id="deducInput"
+                        class="flex-1 h-full px-1 text-right text-sm text-gray-800 bg-transparent outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                </div>
             </div>
             <hr class="my-2 text-zinc-200">
             <div class="flex justify-between text-sm">

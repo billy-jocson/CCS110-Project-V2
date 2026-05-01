@@ -1,6 +1,7 @@
 <?php
 
 include('../../backend/database.php');
+include 'getCompanyMoney.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $json = file_get_contents('php://input');
@@ -17,7 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($paymentData) {
             $salary_id = $paymentData['salary_id'];
+            $currency = "PHP";
             $amount = ($paymentData['base_pay'] + $paymentData['bonus']) - $paymentData["deduction"];
+            $description = "Gave payroll amounting: $amount — to employee id: $id";
+            $newCompanyMoney = $money['amount'] - $amount;
 
             $mysql2 = "UPDATE salary_structure SET is_available = -1 WHERE employee_id = ?";
             $stmt2 = $conn->prepare($mysql2);
@@ -29,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt3->bind_param("iid", $id, $salary_id, $amount);
             $stmt3->execute();
 
-            $mysql4 = "UPDATE company_transactions SET amount = amount - ? WHERE transaction_id = 1";
+            $mysql4 = "INSERT INTO company_transactions(amount, currency, description) VALUES (?, ?, ?)";
             $stmt4 = $conn->prepare($mysql4);
-            $stmt4->bind_param("d", $amount);
+            $stmt4->bind_param("dss", $newCompanyMoney, $currency, $description);
             $stmt4->execute();
 
             echo json_encode(["success" => true, "message" => "Payroll processed"]);

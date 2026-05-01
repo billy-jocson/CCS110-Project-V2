@@ -1,9 +1,3 @@
-<?php
-include('../backend/database.php');
-$stmt = mysqli_query($conn, 'SELECT * FROM employees');
-$totalEmployees = mysqli_num_rows($stmt);
-?>
-
 <div
     class="bg-gradient-to-b from-purple-500 to-purple-800 text-white p-5 w-full h-full overflow-hidden rounded-lg relative flex-grow-1">
     <div class="absolute top-0 -right-8 opacity-35">
@@ -15,8 +9,7 @@ $totalEmployees = mysqli_num_rows($stmt);
     </div>
 
     <div class="flex flex-col justify-end h-full">
-        <h1 class="text-2xl font-extrabold"><?php echo $totalEmployees ?></h1>
+        <h1 class="text-2xl font-extrabold"><?php echo $totalEmployees['total_employees'] ?></h1>
         <h1 class="text-sm">Total Employees</h1>
-        <img src="" alt="">
     </div>
 </div>

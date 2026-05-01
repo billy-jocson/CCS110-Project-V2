@@ -65,13 +65,23 @@ function svgStroke($page, $currentPage)
             <small>Services</small>
 
             <!-- Dashboard -->
-            <li>
-                <a href="dashboard.php"
-                    class="flex gap-2 items-center transition-all duration-300 <?php echo isActive('dashboard.php', $currentPage); ?>">
-                    <i class="fa-solid fa-house <?php echo iconColor('dashboard.php', $currentPage); ?>"></i>
-                    Dashboard
-                </a>
-            </li>
+            <?php if ($isAdmin == 0): ?>
+                <li>
+                    <a href="dashboard.php"
+                        class="flex gap-2 items-center transition-all duration-300 <?php echo isActive('dashboard.php', $currentPage); ?>">
+                        <i class="fa-solid fa-house <?php echo iconColor('dashboard.php', $currentPage); ?>"></i>
+                        Dashboard
+                    </a>
+                </li>
+            <?php else: ?>
+                <li>
+                    <a href="adminDashboard.php"
+                        class="flex gap-2 items-center transition-all duration-300 <?php echo isActive('adminDashboard.php', $currentPage); ?>">
+                        <i class="fa-solid fa-house <?php echo iconColor('adminDashboard.php', $currentPage); ?>"></i>
+                        Dashboard
+                    </a>
+                </li>
+            <?php endif; ?>
 
             <!-- Payroll -->
             <li>
