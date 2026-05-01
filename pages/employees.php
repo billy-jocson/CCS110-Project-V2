@@ -471,12 +471,10 @@ $position = $_SESSION['position'];
         async function submitAdd() {
             const username = document.getElementById('addUsername').value.trim();
             const password = document.getElementById('addPassword').value.trim();
-
             if (!username || !password) {
                 alert('Please enter a username and password.');
                 return;
             }
-
             const formData = new FormData();
             formData.append('createAccount', '1');
             formData.append('firstName', document.getElementById('addFirstName').value);
@@ -486,13 +484,13 @@ $position = $_SESSION['position'];
             formData.append('position', document.getElementById('addPosition').value);
             formData.append('username', username);
             formData.append('password', password);
-
             const pfp = document.getElementById('addProfilePicture').files[0];
             if (pfp) formData.append('profilePicture', pfp);
 
             await fetch('../src/controllers/createAccount.php', { method: 'POST', body: formData });
             closeAddModal();
             loadEmployees();
+            showToast('Employee successfully added!');
         }
 
         // ── EDIT MODAL ──────────────────────────────────────────────
@@ -544,6 +542,7 @@ $position = $_SESSION['position'];
             await fetch('../src/controllers/updateEmployee.php', { method: 'POST', body: formData });
             closeEditModal();
             loadEmployees();
+            showToast('Employee successfully updated!');
         }
 
         // ── DELETE MODAL ────────────────────────────────────────────
@@ -561,9 +560,24 @@ $position = $_SESSION['position'];
             await fetch('../src/controllers/deleteEmployee.php', { method: 'POST', body: formData });
             closeDeleteModal();
             loadEmployees();
+            showToast('Employee successfully removed!', 'error');
         }
 
         // ── Modal helpers ───────────────────────────────────────────
+        function showToast(message, type = 'success') {
+            const existing = document.getElementById('toastNotif');
+            if (existing) existing.remove();
+            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark';
+            const toast = document.createElement('div');
+            toast.id = 'toastNotif';
+            toast.className = `fixed top-6 right-6 z-[999] flex items-center gap-3 ${color} text-white text-sm font-medium px-5 py-3 rounded-xl shadow-lg opacity-0 translate-y-2 transition-all duration-300`;
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('opacity-0', 'translate-y-2'); toast.classList.add('opacity-100', 'translate-y-0'); }, 10);
+            setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-2'); toast.classList.remove('opacity-100', 'translate-y-0'); setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
         function showModal(bgId, modalId) {
             const bg = document.getElementById(bgId);
             const modal = document.getElementById(modalId);
