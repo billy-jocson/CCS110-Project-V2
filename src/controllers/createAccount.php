@@ -25,8 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $targetPath = '../assets/images/DefaultPFP.png';
     if (isset($_FILES['profilePicture']['name']) && $_FILES['profilePicture']['error'] == 0) {
         $pfp = basename($_FILES['profilePicture']['name']);
-        $targetPath = '../assets/images/userProfiles/' . $pfp;
-        move_uploaded_file($_FILES['profilePicture']['tmp_name'], $targetPath);
+        $uploadPath = '../../assets/images/userProfiles/' . $pfp;
+        if (move_uploaded_file($_FILES['profilePicture']['tmp_name'], $uploadPath)) {
+            $targetPath = '../assets/images/userProfiles/' . $pfp;
+        }
     }
 
     $stmt1 = $conn->prepare('INSERT INTO users (user_name, password, profile_link, is_admin) VALUES (?, ?, ?, ?)');
